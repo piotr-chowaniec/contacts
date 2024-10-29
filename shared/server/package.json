@@ -1,0 +1,22 @@
+{
+  "name": "@contacts/server",
+  "version": "1.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@vercel/postgres": "^0.10.0",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.35.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.26.2"
+  }
+}
