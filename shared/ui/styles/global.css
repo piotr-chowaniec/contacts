@@ -14,7 +14,8 @@ body {
 }
 
 input,
-button {
+button,
+select {
   font-size: 1rem;
   font-family: inherit;
   border: none;
@@ -33,10 +34,19 @@ button {
 }
 
 input:hover,
-button:hover {
+button:hover,
+select:hover {
   box-shadow:
     0 0px 1px hsla(0, 0%, 0%, 0.6),
     0 1px 2px hsla(0, 0%, 0%, 0.2);
+}
+
+input:disabled,
+button:disabled {
+  box-shadow:
+    0 0px 1px hsla(0, 0%, 0%, 0.2),
+    0 1px 2px hsla(0, 0%, 0%, 0.2);
+  opacity: 0.5;
 }
 
 button:active {

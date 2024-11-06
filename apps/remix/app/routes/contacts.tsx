@@ -2,21 +2,24 @@ import { getAuth } from "@clerk/remix/ssr.server";
 import { defer, redirect } from "@remix-run/node";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import {
-  Form,
   isRouteErrorResponse,
   NavLink,
   Outlet,
   useLoaderData,
   useNavigate,
-  useNavigation,
   useRouteError,
-  useSubmit,
   Await,
+  useSearchParams,
+  useLocation,
 } from "@remix-run/react";
-import { Suspense, useEffect, useState } from "react";
+import _ from "lodash";
+import { Suspense, useEffect, useMemo, useState } from "react";
 
+import { Contact } from "@contacts/server/db/schema";
 import { getMyContacts } from "@contacts/server/queries";
-import { Spinner } from "@contacts/ui/components/Spinner";
+import { RouteSpinner } from "@contacts/ui/components/Spinner";
+
+type SortBy = "firstName" | "lastName" | "email";
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const { userId } = await getAuth(args);
@@ -25,9 +28,11 @@ export const loader = async (args: LoaderFunctionArgs) => {
   }
 
   const url = new URL(args.request.url);
-  const q = url.searchParams.get("search");
+  const q = url.searchParams.get("q");
+  const sortBy = (url.searchParams.get("sortBy") as SortBy) || "firstName";
   const contactsPromise = getMyContacts(userId, q);
-  return defer({ contacts: contactsPromise, q });
+
+  return defer({ contactsPromise, q, sortBy });
 };
 
 export function ErrorBoundary() {
@@ -56,102 +61,155 @@ export function ErrorBoundary() {
   }
 }
 
-const RouteSpinner = () => (
-  <div className="mt-10 flex w-full justify-center">
-    <div className="h-16 w-16">
-      <Spinner show={true} />
-    </div>
-  </div>
-);
-
 export default function ContactsLayout() {
-  const { contacts, q } = useLoaderData<typeof loader>();
-  const navigation = useNavigation();
+  const { contactsPromise, q, sortBy } = useLoaderData<typeof loader>();
   const navigate = useNavigate();
-  const submit = useSubmit();
-  const [query, setQuery] = useState(q || "");
-  const searching = navigation.location && new URLSearchParams(navigation.location.search).has("q");
-  const isLoading = navigation.state === "loading";
-
-  useEffect(() => {
-    setQuery(q || "");
-  }, [q]);
+  const location = useLocation();
 
   return (
     <>
-      <Suspense fallback={<RouteSpinner />}>
-        <Await resolve={contacts}>
-          {(contacts) => (
-            <>
-              <div className="flex w-80 flex-col items-center gap-4 divide-y border-r py-6">
-                <div className="flex w-full flex-col items-center gap-4 px-6">
-                  <Form
-                    className="w-full"
-                    role="search"
-                    onChange={(event) => {
-                      const isFirstSearch = q === null;
-                      submit(event.currentTarget, {
-                        replace: !isFirstSearch,
-                      });
-                    }}
-                  >
-                    <input
-                      aria-label="Search contacts"
-                      id="search"
-                      name="search"
-                      className={`w-full rounded p-1 px-2 ${searching ? "loading" : ""}`}
-                      onChange={(event) => setQuery(event.currentTarget.value)}
-                      placeholder="Search..."
-                      value={query}
-                    />
-                  </Form>
-                  <button
-                    type="submit"
-                    className="h-8 w-full p-0"
-                    onClick={() => navigate("/contacts/new")}
-                  >
-                    New
-                  </button>
-                </div>
-                <nav className="w-full flex-1 p-4">
-                  {contacts.length ? (
-                    <ul>
-                      {contacts.map((contact) => (
-                        <li key={contact.id}>
-                          <NavLink
-                            to={`/contacts/${contact.id}`}
-                            className={({ isActive, isPending }) =>
-                              `flex min-h-10 justify-between p-3 text-blue-700 ${isActive ? "font-bold" : isPending ? "pending" : ""}`
-                            }
-                          >
-                            {contact.firstName || contact.lastName ? (
-                              <>
-                                {contact.firstName} {contact.lastName}
-                              </>
-                            ) : (
-                              <i>No Name</i>
-                            )}{" "}
-                            {contact.favorite ? <span className="text-yellow-400">★</span> : null}
-                          </NavLink>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>
-                      <i>No contacts</i>
-                    </p>
-                  )}
-                </nav>
-              </div>
-              <div
-                className={`w-full p-14 ${isLoading && !searching ? "opacity-25 transition-opacity delay-200" : ""}`}
-              >
-                <Outlet context={{ noContacts: contacts.length === 0 }} />
-              </div>
-            </>
-          )}
-        </Await>
-      </Suspense>
+      <div className="flex h-full w-80 flex-col items-center gap-4 border-r py-4">
+        <div className="flex w-full flex-col items-center gap-4 px-6">
+          <ContactSort />
+          <ContactSearch />
+          <button
+            className="h-8 w-full p-0"
+            onClick={() => navigate(`/contacts/new${location.search}`)}
+          >
+            New
+          </button>
+        </div>
+        <div className="h-full w-full overflow-scroll px-6">
+          <Suspense fallback={<RouteSpinner />}>
+            <Await resolve={contactsPromise}>
+              {(contacts) => <ContactsList contacts={contacts as unknown as Contact[]} />}
+            </Await>
+          </Suspense>
+        </div>
+      </div>
+      <div className="flex-1 p-14">
+        <Suspense fallback={<RouteSpinner />}>
+          <Await resolve={contactsPromise}>
+            {(contacts) => <Outlet context={{ noContacts: contacts.length === 0 && !q }} />}
+          </Await>
+        </Suspense>
+      </div>
     </>
   );
 }
+
+const ContactSort = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { sortBy } = useLoaderData<typeof loader>();
+
+  const setSortBy = (sortBy: SortBy) =>
+    setSearchParams((prev) => {
+      prev.set("sortBy", sortBy);
+      return prev;
+    });
+
+  return (
+    <div className="flex w-full items-center gap-2">
+      Sort By:
+      <select
+        value={sortBy}
+        onChange={(e) => setSortBy(e.target.value as SortBy)}
+        className="h-8 flex-1 rounded border p-1 px-2"
+      >
+        {[
+          { value: "firstName", label: "First Name" },
+          { value: "lastName", label: "Last Name" },
+          { value: "email", label: "Email" },
+        ].map(({ value, label }) => {
+          return <option key={value} value={value} children={label} />;
+        })}
+      </select>
+    </div>
+  );
+};
+
+const ContactSearch = () => {
+  const { q } = useLoaderData<typeof loader>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [queryInput, setQueryInput] = useState(q || "");
+  const [querySearch, setQuerySearch] = useState(q || "");
+
+  useEffect(() => {
+    setQueryInput(q || "");
+    setQuerySearch(q || "");
+  }, [q]);
+
+  useEffect(() => {
+    setSearchParams((prev) => {
+      if (querySearch) {
+        prev.set("q", querySearch);
+      } else {
+        prev.delete("q");
+      }
+
+      return prev;
+    });
+  }, [querySearch]);
+
+  const debounceSearchParamChange = useMemo(
+    () =>
+      _.debounce((value: string) => {
+        setQuerySearch(value);
+      }, 500),
+    [],
+  );
+
+  return (
+    <input
+      aria-label="Search contacts"
+      id="search"
+      name="search"
+      className="w-full rounded p-1 px-2"
+      onChange={(e) => {
+        const value = e.target.value;
+        setQueryInput(value);
+        debounceSearchParamChange(value);
+      }}
+      placeholder="Search..."
+      value={queryInput}
+    />
+  );
+};
+
+const ContactsList = ({ contacts }: { contacts: Contact[] }) => {
+  const { sortBy } = useLoaderData<typeof loader>();
+  const location = useLocation();
+
+  if (contacts.length === 0) {
+    return <p>No contacts</p>;
+  }
+
+  const sortedContacts = _.sortBy(contacts, sortBy);
+
+  return (
+    <ul className="h-10">
+      {sortedContacts.map((contact) => (
+        <li key={contact.id}>
+          <NavLink
+            to={{
+              pathname: `/contacts/${contact.id}`,
+              search: location.search,
+            }}
+            className={({ isActive }) =>
+              `flex justify-between py-1 text-blue-700 ${isActive ? "font-bold" : ""}`
+            }
+          >
+            {contact.firstName || contact.lastName ? (
+              <>
+                {contact.firstName} {contact.lastName}
+              </>
+            ) : (
+              <i>No Name</i>
+            )}{" "}
+            {contact.favorite ? <span className="text-yellow-400">★</span> : null}
+          </NavLink>
+        </li>
+      ))}
+    </ul>
+  );
+};

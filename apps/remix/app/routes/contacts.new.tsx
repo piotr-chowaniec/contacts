@@ -1,7 +1,7 @@
 import { getAuth } from "@clerk/remix/ssr.server";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, useActionData, useNavigate } from "@remix-run/react";
+import { Form, useActionData, useFetcher, useNavigate } from "@remix-run/react";
 
 import { addContact } from "@contacts/server/queries";
 import { UpdateContactSchema } from "@contacts/server/validation";
@@ -28,15 +28,20 @@ export const action = async (args: ActionFunctionArgs) => {
   }
 
   const createdContact = await addContact(userId, validatedFields.data);
-  return redirect(`/contacts/${createdContact.id}`);
+
+  const url = new URL(args.request.url);
+  const searchParams = url.searchParams.toString();
+  return redirect(`/contacts/${createdContact.id}?${searchParams}`);
 };
 
 export default function NewContact() {
   const navigate = useNavigate();
   const actionData = useActionData<typeof action>();
+  const fetcher = useFetcher();
+  const isPending = fetcher?.state === "submitting";
 
   return (
-    <Form method="post" className="flex max-w-xl flex-col gap-4">
+    <fetcher.Form method="post" className="flex max-w-xl flex-col gap-4">
       <div className="flex">
         <label htmlFor="firstName" className="w-24 pt-2">
           Name
@@ -48,6 +53,7 @@ export default function NewContact() {
             name="firstName"
             placeholder="First"
             type="text"
+            disabled={isPending}
           />
           {actionData?.errors?.firstName ? (
             <em className="text-sm text-red-700">{actionData?.errors.firstName}</em>
@@ -60,6 +66,7 @@ export default function NewContact() {
             name="lastName"
             placeholder="Last"
             type="text"
+            disabled={isPending}
           />
           {actionData?.errors?.lastName ? (
             <em className="text-sm text-red-700">{actionData?.errors.lastName}</em>
@@ -71,7 +78,13 @@ export default function NewContact() {
           Email
         </label>
         <div className="flex flex-1 flex-col gap-2">
-          <input id="email" name="email" placeholder="some@email.com" type="email" />
+          <input
+            id="email"
+            name="email"
+            placeholder="some@email.com"
+            type="email"
+            disabled={isPending}
+          />
           {actionData?.errors?.email ? (
             <em className="text-sm text-red-700">{actionData?.errors.email}</em>
           ) : null}
@@ -87,6 +100,7 @@ export default function NewContact() {
             name="avatarUrl"
             placeholder="https://example.com/avatar.jpg"
             type="text"
+            disabled={isPending}
           />
           {actionData?.errors?.avatarUrl ? (
             <em className="text-sm text-red-700">{actionData?.errors.avatarUrl}</em>
@@ -94,11 +108,18 @@ export default function NewContact() {
         </div>
       </div>
       <div className="ml-24 flex gap-4">
-        <button type="submit">Save</button>
-        <button type="button" className="text-inherit" onClick={() => navigate(-1)}>
+        <button type="submit" className="w-24" disabled={isPending}>
+          {isPending ? "Saving..." : "Save"}{" "}
+        </button>
+        <button
+          type="button"
+          className="w-24 text-inherit"
+          disabled={isPending}
+          onClick={() => navigate(-1)}
+        >
           Cancel
         </button>
       </div>
-    </Form>
+    </fetcher.Form>
   );
 }

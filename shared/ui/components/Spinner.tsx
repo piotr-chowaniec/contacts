@@ -22,3 +22,11 @@ export function Spinner({ show }: { show: boolean }) {
     </svg>
   );
 }
+
+export const RouteSpinner = () => (
+  <div className="mt-10 flex w-full justify-center">
+    <div className="h-16 w-16">
+      <Spinner show={true} />
+    </div>
+  </div>
+);

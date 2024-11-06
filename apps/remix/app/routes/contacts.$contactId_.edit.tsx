@@ -1,7 +1,7 @@
 import { getAuth } from "@clerk/remix/ssr.server";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useActionData, useLoaderData, useNavigate } from "@remix-run/react";
+import { Form, useActionData, useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
 
 import { getContact, updateContact } from "@contacts/server/queries";
 import { UpdateContactSchema } from "@contacts/server/validation";
@@ -33,7 +33,11 @@ export const action = async (args: ActionFunctionArgs) => {
   }
 
   await updateContact(userId, contactId, validatedFields.data);
-  return redirect(`/contacts/${contactId}`);
+
+  const url = new URL(args.request.url);
+  const searchParams = url.searchParams.toString();
+
+  return redirect(`/contacts/${contactId}?${searchParams}`);
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -58,9 +62,12 @@ export default function EditContact() {
   const navigate = useNavigate();
   const { contact } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
+  const fetcher = useFetcher();
+
+  const isPending = fetcher?.state === "submitting";
 
   return (
-    <Form key={contact.id} method="post" className="flex max-w-xl flex-col gap-4">
+    <fetcher.Form key={contact.id} method="post" className="flex max-w-xl flex-col gap-4">
       <div className="flex">
         <label htmlFor="firstName" className="w-24 pt-2">
           Name
@@ -73,6 +80,7 @@ export default function EditContact() {
             name="firstName"
             placeholder="First"
             type="text"
+            disabled={isPending}
           />
           {actionData?.errors?.firstName ? (
             <em className="text-sm text-red-700">{actionData?.errors.firstName}</em>
@@ -86,6 +94,7 @@ export default function EditContact() {
             name="lastName"
             placeholder="Last"
             type="text"
+            disabled={isPending}
           />
           {actionData?.errors?.lastName ? (
             <em className="text-sm text-red-700">{actionData?.errors.lastName}</em>
@@ -103,6 +112,7 @@ export default function EditContact() {
             name="email"
             placeholder="some@email.com"
             type="email"
+            disabled={isPending}
           />
           {actionData?.errors?.email ? (
             <em className="text-sm text-red-700">{actionData?.errors.email}</em>
@@ -120,6 +130,7 @@ export default function EditContact() {
             name="avatarUrl"
             placeholder="https://example.com/avatar.jpg"
             type="text"
+            disabled={isPending}
           />
           {actionData?.errors?.avatarUrl ? (
             <em className="text-sm text-red-700">{actionData?.errors.avatarUrl}</em>
@@ -127,11 +138,18 @@ export default function EditContact() {
         </div>
       </div>
       <div className="ml-24 flex gap-4">
-        <button type="submit">Save</button>
-        <button type="button" className="text-inherit" onClick={() => navigate(-1)}>
+        <button type="submit" className="w-24" disabled={isPending}>
+          {isPending ? "Saving..." : "Save"}{" "}
+        </button>
+        <button
+          type="button"
+          className="w-24 text-inherit"
+          disabled={isPending}
+          onClick={() => navigate(-1)}
+        >
           Cancel
         </button>
       </div>
-    </Form>
+    </fetcher.Form>
   );
 }

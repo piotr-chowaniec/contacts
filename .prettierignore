@@ -1,4 +1,7 @@
 .vscode
 
 **/node_modules/
-**/dist/
+**/dist
+**/build
+pnpm-*
+routerTree.gen.ts

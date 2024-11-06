@@ -7,7 +7,7 @@ import { UpdateContact, UpdateContactFavorite } from "./validation";
 
 export async function getMyContacts(userId: string, query?: string | null) {
   // Simulate network latency
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
   if (query) {
     const contacts = await db.query.contacts.findMany({
@@ -15,9 +15,9 @@ export async function getMyContacts(userId: string, query?: string | null) {
         and(
           eq(model.userId, userId),
           or(
-            ilike(model.firstName, query),
-            ilike(model.lastName, query),
-            ilike(model.email, query),
+            ilike(model.firstName, `%${query}%`),
+            ilike(model.lastName, `%${query}%`),
+            ilike(model.email, `%${query}%`),
           ),
         ),
       orderBy: (model, { desc }) => desc(model.id),
@@ -36,7 +36,7 @@ export async function getMyContacts(userId: string, query?: string | null) {
 
 export async function getContact(userId: string, id: string) {
   // Simulate network latency
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
   if (!userId) throw new Error("Unauthorized");
 
@@ -52,6 +52,9 @@ export async function getContact(userId: string, id: string) {
 }
 
 export async function addContact(userId: string, data: UpdateContact) {
+  // Simulate network latency
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const [createdContact] = await db
     .insert(contacts)
     .values({
@@ -64,6 +67,9 @@ export async function addContact(userId: string, data: UpdateContact) {
 }
 
 export async function updateContact(userId: string, id: string, updates: UpdateContact) {
+  // Simulate network latency
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const [updatedContact] = await db
     .update(contacts)
     .set(updates)
@@ -78,6 +84,9 @@ export async function updateContactFavorite(
   id: string,
   updates: UpdateContactFavorite,
 ) {
+  // Simulate network latency
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const [updatedContact] = await db
     .update(contacts)
     .set(updates)
@@ -88,6 +97,9 @@ export async function updateContactFavorite(
 }
 
 export async function deleteContact(userId: string, id: string) {
+  // Simulate network latency
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   await db.delete(contacts).where(and(eq(contacts.id, id), eq(contacts.userId, userId)));
 }
 

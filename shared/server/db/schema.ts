@@ -1,6 +1,6 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
-import { sql } from "drizzle-orm";
+import { InferSelectModel, sql } from "drizzle-orm";
 import { boolean, pgTableCreator, uuid, timestamp, varchar } from "drizzle-orm/pg-core";
 
 /**
@@ -24,3 +24,5 @@ export const contacts = createTable("contact", {
     .notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
 });
+
+export type Contact = InferSelectModel<typeof contacts>;

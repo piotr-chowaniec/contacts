@@ -5,8 +5,6 @@ import { LoaderFunctionArgs, redirect } from "@remix-run/node";
 export const loader = async (args: LoaderFunctionArgs) => {
   const { userId } = await getAuth(args);
 
-  console.log({ userId });
-
   if (userId) {
     return redirect("/");
   }
@@ -14,7 +12,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
   return {};
 };
 
-export default function Index() {
+export default function Login() {
   return (
     <div className="flex w-full flex-col items-center gap-4 pt-10">
       <div>Please sign in</div>

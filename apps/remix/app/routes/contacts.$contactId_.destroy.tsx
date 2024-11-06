@@ -15,5 +15,9 @@ export const action = async (args: ActionFunctionArgs) => {
   }
 
   await deleteContact(userId, contactId);
-  return redirect("/contacts");
+
+  const url = new URL(args.request.url);
+  const searchParams = url.searchParams.toString();
+
+  return redirect(`/contacts?${searchParams}`);
 };

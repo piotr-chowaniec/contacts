@@ -54,12 +54,12 @@ export function ErrorBoundary() {
         <Meta />
         <Links />
       </head>
-      <body className="m-2">
-        <div className={`flex min-h-screen w-full flex-col`}>
+      <body>
+        <div className="flex h-screen w-screen flex-col p-2">
           <div className={`col flex items-center justify-between gap-2 border-b pb-2`}>
-            <h1 className={`p-2 text-3xl`}>Contacts App</h1>
+            <h1 className="p-2 text-3xl">Contacts App</h1>
           </div>
-          <div className={`flex flex-1`}>
+          <div className={`flex h-full`}>
             <div className={`w-40 divide-y`}>
               {(
                 [
@@ -101,10 +101,10 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body className="m-2">
-        <div className={`flex min-h-screen w-full flex-col`}>
+      <body>
+        <div className="flex h-screen w-screen flex-col p-2">
           <div className={`col flex items-center justify-between gap-2 border-b pb-2`}>
-            <h1 className={`p-2 text-3xl`}>Contacts App</h1>
+            <h1 className="p-2 text-3xl">Contacts App</h1>
             <div className="mr-4 flex items-center">
               <SignedOut>
                 <SignInButton />
@@ -120,7 +120,7 @@ function App() {
               </SignedIn>
             </div>
           </div>
-          <div className={`flex flex-1`}>
+          <div className={`flex h-full`}>
             <div className={`w-40 divide-y`}>
               <NavLink
                 to={"/"}
@@ -149,7 +149,7 @@ function App() {
                 </NavLink>
               </SignedOut>
             </div>
-            <div className={`flex flex-1 border-l`}>
+            <div className={`flex h-full flex-1 border-l`}>
               <Outlet />
             </div>
           </div>
