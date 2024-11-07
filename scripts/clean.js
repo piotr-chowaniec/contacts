@@ -1,7 +1,13 @@
 import { Command } from "commander";
 import { rimraf } from "rimraf";
 
-const basePaths = ["**/apps/**/dist", "**/shared/**/dist", "**/.turbo", "**/node_modules/.vite"];
+const basePaths = [
+  "**/apps/**/dist",
+  "**/shared/**/dist",
+  "**/.turbo",
+  "**/.vercel",
+  "**/node_modules/.vite",
+];
 const allPaths = [...basePaths, "**/node_modules"];
 
 (async () => {

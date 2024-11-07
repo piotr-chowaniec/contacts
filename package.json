@@ -10,6 +10,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "build": "turbo run build",
     "clean": "node scripts/clean",
     "dev": "pnpm turbo run dev",
     "dev:remix": "pnpm turbo run dev --filter=remix...",

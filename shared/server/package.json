@@ -1,14 +1,25 @@
 {
   "name": "@contacts/server",
   "version": "1.0.0",
-  "main": "./index.ts",
-  "types": "./index.ts",
+  "private": true,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/mjs/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/mjs/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./*": {
+      "import": "./dist/mjs/*.js",
+      "require": "./dist/cjs/*.js"
+    }
+  },
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "build": "tsc -b"
+    "build": "tsc -b tsconfig.json tsconfig.cjs.json"
   },
   "dependencies": {
     "@vercel/postgres": "^0.10.0",

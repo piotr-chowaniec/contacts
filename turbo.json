@@ -2,7 +2,9 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": [".env"],
   "tasks": {
-    "build": {},
+    "build": {
+      "dependsOn": ["^build"]
+    },
     "dev": {
       "persistent": true,
       "cache": false
