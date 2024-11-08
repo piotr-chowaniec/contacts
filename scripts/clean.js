@@ -6,6 +6,7 @@ const basePaths = [
   "**/shared/**/dist",
   "**/.turbo",
   "**/.vercel",
+  "**/tsconfig.tsbuildinfo",
   "**/node_modules/.vite",
 ];
 const allPaths = [...basePaths, "**/node_modules"];

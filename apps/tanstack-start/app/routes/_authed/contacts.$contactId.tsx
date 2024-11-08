@@ -11,12 +11,12 @@ import {
   useDeleteContactMutation,
   useGetContactQueryOptions,
   useUpdateContactMutation,
-} from "../utils/queryOptions";
+} from "../../utils/queryOptions";
 
-export const Route = createFileRoute("/contacts/$contactId")({
+export const Route = createFileRoute("/_authed/contacts/$contactId")({
   loader: (opts) =>
     opts.context.queryClient.ensureQueryData(
-      useGetContactQueryOptions(opts.context.auth, opts.params.contactId),
+      useGetContactQueryOptions(opts.context.auth.userId!, opts.params.contactId),
     ),
   pendingComponent: ContactSkeleton,
   component: ContactComponent,
@@ -28,10 +28,16 @@ function ContactComponent() {
   const context = Route.useRouteContext();
   const navigate = Route.useNavigate();
 
-  const contactQuery = useSuspenseQuery(useGetContactQueryOptions(context.auth, params.contactId));
-  const { contact } = contactQuery.data;
+  const contactQuery = useSuspenseQuery(
+    useGetContactQueryOptions(context.auth.userId!, params.contactId),
+  );
+  const contact = contactQuery.data.contact as Contact;
 
-  const deleteContact = useDeleteContactMutation(context.auth, params.contactId);
+  const deleteContact = useDeleteContactMutation(
+    context.queryClient,
+    context.auth.userId!,
+    params.contactId,
+  );
 
   return (
     <ContactDetails contact={contact}>
@@ -74,7 +80,13 @@ function ContactComponent() {
 const Favorite = ({ contact }: { contact: Contact }) => {
   const params = Route.useParams();
   const context = Route.useRouteContext();
-  const updateContactFavorite = useUpdateContactMutation(context.auth, params.contactId);
+  const updateContactFavorite = useUpdateContactMutation(
+    context.queryClient,
+    context.auth.userId!,
+    params.contactId,
+  );
+
+  console.log(updateContactFavorite);
 
   const [isFavorite, setFavorite] = useState<boolean>(Boolean(contact.favorite));
 

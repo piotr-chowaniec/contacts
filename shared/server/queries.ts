@@ -5,9 +5,13 @@ import { contacts } from "./db/schema";
 import { TEST_CONTACTS } from "./db/seed";
 import { UpdateContact, UpdateContactFavorite } from "./validation";
 
+const FORCED_NETWORK_LATENCY = process.env.FORCED_NETWORK_LATENCY
+  ? parseInt(process.env.FORCED_NETWORK_LATENCY)
+  : 1000;
+
 export async function getMyContacts(userId: string, query?: string | null) {
   // Simulate network latency
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, FORCED_NETWORK_LATENCY));
 
   if (query) {
     const contacts = await db.query.contacts.findMany({
@@ -36,7 +40,7 @@ export async function getMyContacts(userId: string, query?: string | null) {
 
 export async function getContact(userId: string, id: string) {
   // Simulate network latency
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, FORCED_NETWORK_LATENCY));
 
   if (!userId) throw new Error("Unauthorized");
 
@@ -53,7 +57,7 @@ export async function getContact(userId: string, id: string) {
 
 export async function addContact(userId: string, data: UpdateContact) {
   // Simulate network latency
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, FORCED_NETWORK_LATENCY));
 
   const [createdContact] = await db
     .insert(contacts)
@@ -68,7 +72,7 @@ export async function addContact(userId: string, data: UpdateContact) {
 
 export async function updateContact(userId: string, id: string, updates: UpdateContact) {
   // Simulate network latency
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, FORCED_NETWORK_LATENCY));
 
   const [updatedContact] = await db
     .update(contacts)
@@ -85,7 +89,7 @@ export async function updateContactFavorite(
   updates: UpdateContactFavorite,
 ) {
   // Simulate network latency
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, FORCED_NETWORK_LATENCY));
 
   const [updatedContact] = await db
     .update(contacts)
@@ -98,7 +102,7 @@ export async function updateContactFavorite(
 
 export async function deleteContact(userId: string, id: string) {
   // Simulate network latency
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, FORCED_NETWORK_LATENCY));
 
   await db.delete(contacts).where(and(eq(contacts.id, id), eq(contacts.userId, userId)));
 }
