@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Contact } from "@contacts/server/db/schema";
 import { ContactDetails } from "@contacts/ui/components/Contact.Details";
 import { ContactError } from "@contacts/ui/components/Contact.Error";
+import { ContactImage } from "@contacts/ui/components/Contact.Image";
 import { ContactSkeleton } from "@contacts/ui/components/Contact.Skeleton";
 
 import {
@@ -34,40 +35,46 @@ function ContactComponent() {
   const deleteContact = useDeleteContactMutation(context.auth, params.contactId);
 
   return (
-    <ContactDetails contact={contact}>
-      <Favorite contact={contact} />
-      <button
-        type="submit"
-        onClick={() => {
-          void navigate({
-            to: `/contacts/${params.contactId}/edit`,
-            search: (old) => old,
-          });
-        }}
-      >
-        Edit
-      </button>
-      <button
-        type="submit"
-        className="text-red-600"
-        onClick={() => {
-          const response = confirm("Please confirm you want to delete this contact.");
+    <ContactDetails
+      contact={contact}
+      ContactImage={<ContactImage contact={contact} />}
+      Favorite={<Favorite contact={contact} />}
+      EditButton={
+        <button
+          type="submit"
+          onClick={() => {
+            void navigate({
+              to: `/contacts/${params.contactId}/edit`,
+              search: (old) => old,
+            });
+          }}
+        >
+          Edit
+        </button>
+      }
+      DeleteButton={
+        <button
+          type="submit"
+          className="text-red-600"
+          onClick={() => {
+            const response = confirm("Please confirm you want to delete this contact.");
 
-          if (!response) {
-            return;
-          }
+            if (!response) {
+              return;
+            }
 
-          deleteContact.mutate();
+            deleteContact.mutate();
 
-          void navigate({
-            to: "/contacts",
-            search: (old) => old,
-          });
-        }}
-      >
-        Delete
-      </button>
-    </ContactDetails>
+            void navigate({
+              to: "/contacts",
+              search: (old) => old,
+            });
+          }}
+        >
+          Delete
+        </button>
+      }
+    />
   );
 }
 

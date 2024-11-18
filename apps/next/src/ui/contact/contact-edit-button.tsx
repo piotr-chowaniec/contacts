@@ -9,7 +9,9 @@ export function ContactEditButton({ contactId }: { contactId: string }) {
   return (
     <button
       onClick={() =>
-        router.push(`/contacts/${contactId}/edit${searchParams ? `?${searchParams}` : ""}`)
+        router.push(
+          `/contacts/${contactId}/edit${searchParams ? `?${searchParams.toString()}` : ""}`,
+        )
       }
     >
       Edit

@@ -29,7 +29,7 @@ const eslintConfig = tseslint.config(
   },
   {
     name: "Rules for React files",
-    files: ["**/*.{js,jsx, ts, tsx}"],
+    files: ["**/*.{jsx, tsx}"],
     plugins: {
       react,
     },

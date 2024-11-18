@@ -20,7 +20,7 @@ export function ContactSearch() {
   const debounceSearchParamChange = useMemo(
     () =>
       _.debounce((value: string) => {
-        setQuerySearch(value);
+        void setQuerySearch(value);
       }, 500),
     [],
   );

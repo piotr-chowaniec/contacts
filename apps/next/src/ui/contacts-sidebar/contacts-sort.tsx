@@ -1,6 +1,5 @@
 "use client";
 
-import _ from "lodash";
 import { useQueryState } from "nuqs";
 
 import { SortBy } from "./contacts-list";
@@ -16,7 +15,7 @@ export function ContactSort() {
       Sort By:
       <select
         value={sortBy}
-        onChange={(e) => setSortBy(e.target.value as SortBy)}
+        onChange={(e) => void setSortBy(e.target.value as SortBy)}
         className="h-8 flex-1 rounded border p-1 px-2"
       >
         {[

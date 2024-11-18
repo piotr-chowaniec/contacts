@@ -14,7 +14,7 @@ export function ContactsLinks({ contacts }: { contacts: Contact[] }) {
       {contacts.map((contact) => (
         <li key={contact.id}>
           <Link
-            href={`/contacts/${contact.id}${searchParams ? `?${searchParams}` : ""}`}
+            href={`/contacts/${contact.id}${searchParams ? `?${searchParams.toString()}` : ""}`}
             className={`flex justify-between py-1 text-blue-700 ${pathname.includes(`/contacts/${contact.id}`) ? "font-bold" : ""}`}
           >
             {contact.firstName || contact.lastName ? (

@@ -104,7 +104,7 @@ export async function deleteContact(userId: string, id: string) {
   // Simulate network latency
   await new Promise((resolve) => setTimeout(resolve, FORCED_NETWORK_LATENCY));
 
-  await db.delete(contacts).where(and(eq(contacts.userId, userId)));
+  await db.delete(contacts).where(and(eq(contacts.id, id), eq(contacts.userId, userId)));
 }
 
 export async function seedContacts(userId: string) {

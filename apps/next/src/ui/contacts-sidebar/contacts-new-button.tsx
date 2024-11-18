@@ -10,7 +10,9 @@ export function ContactsNewButton() {
     <button
       type="submit"
       className="h-8 w-full p-0"
-      onClick={() => router.push(`/contacts/new${searchParams ? `?${searchParams}` : ""}`)}
+      onClick={() =>
+        router.push(`/contacts/new${searchParams ? `?${searchParams.toString()}` : ""}`)
+      }
     >
       New
     </button>

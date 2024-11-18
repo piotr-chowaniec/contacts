@@ -10,6 +10,7 @@ export function ContactDeleteButton({ contactId }: { contactId: string }) {
   return (
     <button
       className="text-red-600"
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onClick={async () => {
         const response = confirm("Please confirm you want to delete this contact.");
 
@@ -19,7 +20,7 @@ export function ContactDeleteButton({ contactId }: { contactId: string }) {
 
         await deleteContactServerFn(contactId);
 
-        router.push(`/contacts${searchParams ? `?${searchParams}` : ""}`);
+        router.push(`/contacts${searchParams ? `?${searchParams.toString()}` : ""}`);
       }}
     >
       Delete

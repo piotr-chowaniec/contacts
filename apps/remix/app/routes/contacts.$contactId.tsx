@@ -17,6 +17,7 @@ import type { Contact } from "@contacts/server/db/schema";
 import { getContact, updateContactFavorite } from "@contacts/server/queries";
 import { ContactDetails } from "@contacts/ui/components/Contact.Details";
 import { ContactError } from "@contacts/ui/components/Contact.Error";
+import { ContactImage } from "@contacts/ui/components/Contact.Image";
 import { ContactSkeleton } from "@contacts/ui/components/Contact.Skeleton";
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -72,25 +73,29 @@ const ContactDetailsWrapper = () => {
   const navigate = useNavigate();
 
   return (
-    <ContactDetails contact={contact}>
-      <Favorite isFavorite={Boolean(contact.favorite)} />
-      <button onClick={() => navigate(`edit${location.search}`)}>Edit</button>
-      <Form
-        action={`destroy${location.search}`}
-        method="post"
-        onSubmit={(event) => {
-          const response = confirm("Please confirm you want to delete this contact.");
+    <ContactDetails
+      contact={contact}
+      ContactImage={<ContactImage contact={contact} />}
+      Favorite={<Favorite isFavorite={Boolean(contact.favorite)} />}
+      EditButton={<button onClick={() => navigate(`edit${location.search}`)}>Edit</button>}
+      DeleteButton={
+        <Form
+          action={`destroy${location.search}`}
+          method="post"
+          onSubmit={(event) => {
+            const response = confirm("Please confirm you want to delete this contact.");
 
-          if (!response) {
-            event.preventDefault();
-          }
-        }}
-      >
-        <button type="submit" className="text-red-600">
-          Delete
-        </button>
-      </Form>
-    </ContactDetails>
+            if (!response) {
+              event.preventDefault();
+            }
+          }}
+        >
+          <button type="submit" className="text-red-600">
+            Delete
+          </button>
+        </Form>
+      }
+    />
   );
 };
 

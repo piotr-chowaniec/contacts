@@ -4,7 +4,7 @@ import { SeedButton } from "~/ui/contacts-sidebar/contacts-seed-button";
 
 import { RouteSpinner } from "@contacts/ui/components/Spinner";
 
-export default async function ContactsPage() {
+export default function ContactsPage() {
   return (
     <Suspense fallback={<RouteSpinner />}>
       <ContactDefaultPage />
