@@ -86,8 +86,6 @@ const Favorite = ({ contact }: { contact: Contact }) => {
     params.contactId,
   );
 
-  console.log(updateContactFavorite);
-
   const [isFavorite, setFavorite] = useState<boolean>(Boolean(contact.favorite));
 
   const handleFavoriteChange = () => {
