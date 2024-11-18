@@ -25,7 +25,16 @@ const eslintConfig = tseslint.config(
     ...tseslint.configs.disableTypeChecked,
   },
   {
-    ignores: ["**/dist/**/*", "**/eslint.config.mjs"],
+    ignores: [
+      "**/dist/**/*",
+      "**/build/**/*",
+      "**/.turbo/**/*",
+      "**/.vercel/**/*",
+      "**/.vinxi/**/*",
+      "**/.next/**/*",
+      "**/eslint.config.mjs",
+      "**/**/*.js",
+    ],
   },
   {
     name: "Rules for React files",

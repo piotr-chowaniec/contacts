@@ -88,7 +88,7 @@ const ContactSort = () => {
       Sort By:
       <select
         value={sortBy}
-        onChange={(e) => setSortBy(e.target.value as SortBy)}
+        onChange={(e) => void setSortBy(e.target.value as SortBy)}
         className="h-8 flex-1 rounded border p-1 px-2"
       >
         {[

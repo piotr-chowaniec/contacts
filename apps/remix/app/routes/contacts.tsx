@@ -62,7 +62,7 @@ export function ErrorBoundary() {
 }
 
 export default function ContactsLayout() {
-  const { contactsPromise, q, sortBy } = useLoaderData<typeof loader>();
+  const { contactsPromise, q } = useLoaderData<typeof loader>();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -99,7 +99,7 @@ export default function ContactsLayout() {
 }
 
 const ContactSort = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const { sortBy } = useLoaderData<typeof loader>();
 
   const setSortBy = (sortBy: SortBy) =>
@@ -130,7 +130,7 @@ const ContactSort = () => {
 
 const ContactSearch = () => {
   const { q } = useLoaderData<typeof loader>();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const [queryInput, setQueryInput] = useState(q || "");
   const [querySearch, setQuerySearch] = useState(q || "");
 
