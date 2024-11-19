@@ -3,9 +3,12 @@ import { rimraf } from "rimraf";
 
 const basePaths = [
   "**/apps/**/dist",
+  "**/apps/**/build",
   "**/shared/**/dist",
   "**/.turbo",
   "**/.vercel",
+  "**/.next",
+  "**/.vinxi",
   "**/tsconfig.tsbuildinfo",
   "**/node_modules/.vite",
 ];

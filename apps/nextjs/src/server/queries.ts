@@ -14,7 +14,7 @@ import {
 import { UpdateContact } from "@contacts/server/validation";
 
 export async function getMyContactsServerFn(q?: string) {
-  const user = auth();
+  const user = await auth();
 
   if (!user.userId) throw new Error("Unauthorized");
 
@@ -23,7 +23,7 @@ export async function getMyContactsServerFn(q?: string) {
 }
 
 export async function getContactServerFn(contactId: string) {
-  const user = auth();
+  const user = await auth();
 
   if (!user.userId) throw new Error("Unauthorized");
 
@@ -32,7 +32,7 @@ export async function getContactServerFn(contactId: string) {
 }
 
 export async function createContactServerFn(data: UpdateContact) {
-  const user = auth();
+  const user = await auth();
 
   if (!user.userId) throw new Error("Unauthorized");
 
@@ -44,7 +44,7 @@ export async function createContactServerFn(data: UpdateContact) {
 }
 
 export async function updateContactServerFn(contactId: string, data: UpdateContact) {
-  const user = auth();
+  const user = await auth();
 
   if (!user.userId) throw new Error("Unauthorized");
 
@@ -56,7 +56,7 @@ export async function updateContactServerFn(contactId: string, data: UpdateConta
 }
 
 export async function deleteContactServerFn(contactId: string) {
-  const user = auth();
+  const user = await auth();
 
   if (!user.userId) throw new Error("Unauthorized");
 
@@ -66,7 +66,7 @@ export async function deleteContactServerFn(contactId: string) {
 }
 
 export async function seedContactsServerFn() {
-  const user = auth();
+  const user = await auth();
 
   if (!user.userId) throw new Error("Unauthorized");
 

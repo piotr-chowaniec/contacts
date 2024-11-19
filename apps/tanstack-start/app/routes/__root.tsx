@@ -15,15 +15,16 @@ import {
   createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import { Body, createServerFn, Head, Html, Meta, Scripts } from "@tanstack/start";
+import { createServerFn, Meta, Scripts } from "@tanstack/start";
 import * as React from "react";
+import { getWebRequest } from "vinxi/http";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import { NotFound } from "~/components/NotFound";
 
 import styles from "@contacts/ui/styles/global.css?url";
 
-const fetchClerkAuth = createServerFn("GET", async (_, ctx) => {
-  const auth = await getAuth(ctx.request);
+const fetchClerkAuth = createServerFn({ method: "GET" }).handler(async () => {
+  const auth = await getAuth(getWebRequest());
 
   return {
     auth,
@@ -33,19 +34,21 @@ const fetchClerkAuth = createServerFn("GET", async (_, ctx) => {
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
-  meta: () => [
-    {
-      charSet: "utf-8",
-    },
-    {
-      name: "viewport",
-      content: "width=device-width, initial-scale=1",
-    },
-    {
-      title: "TanStack Start Starter",
-    },
-  ],
-  links: () => [{ rel: "stylesheet", href: styles }],
+  head: () => ({
+    meta: [
+      {
+        charSet: "utf-8",
+      },
+      {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1",
+      },
+      {
+        title: "Contacts - TanStack Start",
+      },
+    ],
+    links: [{ rel: "stylesheet", href: styles }],
+  }),
   beforeLoad: async () => {
     const { auth } = await fetchClerkAuth();
     return {
@@ -77,11 +80,11 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <Html>
-      <Head>
+    <html>
+      <head>
         <Meta />
-      </Head>
-      <Body>
+      </head>
+      <body>
         <div className="flex h-screen w-screen flex-col p-2">
           <div className={`col flex items-center justify-between gap-2 border-b pb-2`}>
             <h1 className="p-2 text-3xl">Contacts App</h1>
@@ -139,7 +142,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <TanStackRouterDevtools position="bottom-right" />
         <ReactQueryDevtools buttonPosition="bottom-left" />
         <Scripts />
-      </Body>
-    </Html>
+      </body>
+    </html>
   );
 }

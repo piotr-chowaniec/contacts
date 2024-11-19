@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export default async function LoginPage(props: { searchParams: SearchParams }) {
-  const user = auth();
+  const user = await auth();
   const searchParams = await props.searchParams;
   const redirectTo = searchParams.redirectTo;
 

@@ -11,27 +11,27 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@clerk/remix": "^4.2.41",
+    "@clerk/remix": "^4.2.53",
     "@contacts/server": "workspace:*",
     "@contacts/ui": "workspace:*",
-    "@remix-run/node": "^2.13.1",
-    "@remix-run/react": "^2.13.1",
-    "@remix-run/serve": "^2.13.1",
-    "isbot": "^4.1.0",
+    "@remix-run/node": "^2.14.0",
+    "@remix-run/react": "^2.14.0",
+    "@remix-run/serve": "^2.14.0",
+    "isbot": "^5.1.17",
     "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.13.1",
+    "@remix-run/dev": "^2.14.0",
     "@types/lodash": "^4.17.13",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.14",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
     "typescript": "^5.6.3",
-    "vite": "^5.4.9",
-    "vite-tsconfig-paths": "^4.2.1"
+    "vite": "^5.4.11",
+    "vite-tsconfig-paths": "^5.1.2"
   }
 }
