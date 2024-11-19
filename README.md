@@ -6,7 +6,7 @@ Welcome to the **Contacts App Showcase**! This monorepo demonstrates the same ap
 
 All apps are deployed to **Vercel**. You can explore live demos for each implementation below:
 
-- **Next.js**: [View Demo](https://contacts-nextjs.vercel.app/)
+- **Next.js**: [View Demo](https://contacts-nextjs-peach.vercel.app/)
 - **Remix**: [View Demo](https://contacts-remix.vercel.app/)
 - **TanStack Router**: [View Demo](https://contacts-tanstack-router.vercel.app/)
 - **TanStack Start**: [View Demo](https://contacts-tanstack-start.vercel.app/)
