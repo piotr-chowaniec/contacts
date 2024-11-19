@@ -1,18 +1,28 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { notFound, useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { getQueryClient } from "~/get-query-client";
 import { updateContactServerFn } from "~/server/queries";
+import { useGetContactQueryOptions } from "~/server/queryOptions";
 
-import { Contact } from "@contacts/server/db/schema";
 import { UpdateContactSchema } from "@contacts/server/validation";
 
 import { ContactEditForm } from "./contact-form";
 
-export function ContactEdit({ contact }: { contact: Contact }) {
+export function ContactEdit({ id }: { id: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const queryClient = getQueryClient();
   const [errors, setErrors] = useState<Record<string, string[]>>({});
+
+  const contactQuery = useSuspenseQuery(useGetContactQueryOptions(id));
+  const { contact } = contactQuery.data;
+
+  if (!contact) {
+    notFound();
+  }
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,6 +42,10 @@ export function ContactEdit({ contact }: { contact: Contact }) {
     }
 
     await updateContactServerFn(contact.id, validatedFields.data);
+
+    await queryClient.invalidateQueries({
+      queryKey: ["contact"],
+    });
 
     router.push(`/contacts/${contact.id}${searchParams ? `?${searchParams.toString()}` : ""}`);
   };

@@ -11,6 +11,8 @@
     "@clerk/nextjs": "^5.3.6",
     "@contacts/server": "workspace:*",
     "@contacts/ui": "workspace:*",
+    "@tanstack/react-query": "^5.60.5",
+    "@tanstack/react-query-devtools": "^5.60.5",
     "lodash": "^4.17.21",
     "next": "^15.0.1",
     "nuqs": "^2.1.2",

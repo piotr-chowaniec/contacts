@@ -75,7 +75,7 @@ function RootComponent() {
   );
 }
 
-function RootDocument() {
+function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <Html>
       <Head>
@@ -132,9 +132,7 @@ function RootDocument() {
                 </Link>
               </SignedOut>
             </div>
-            <div className={`flex h-full flex-1 border-l`}>
-              <Outlet />
-            </div>
+            <div className={`flex h-full flex-1 border-l`}>{children}</div>
           </div>
         </div>
         <ScrollRestoration />

@@ -1,11 +1,13 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { getQueryClient } from "~/get-query-client";
 import { deleteContactServerFn } from "~/server/queries";
 
 export function ContactDeleteButton({ contactId }: { contactId: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const queryClient = getQueryClient();
 
   return (
     <button
@@ -21,6 +23,10 @@ export function ContactDeleteButton({ contactId }: { contactId: string }) {
         await deleteContactServerFn(contactId);
 
         router.push(`/contacts${searchParams ? `?${searchParams.toString()}` : ""}`);
+
+        await queryClient.invalidateQueries({
+          queryKey: ["contact"],
+        });
       }}
     >
       Delete

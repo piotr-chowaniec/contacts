@@ -1,6 +1,9 @@
+"use client";
+
+import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getContactServerFn } from "~/server/queries";
+import { useGetContactQueryOptions } from "~/server/queryOptions";
 
 import avatarFallback from "@contacts/ui/assets/images/avatar-fallback.png";
 import { ContactDetails as ContactComponent } from "@contacts/ui/components/Contact.Details";
@@ -9,8 +12,9 @@ import { ContactDeleteButton } from "./contact-delete-button";
 import { ContactEditButton } from "./contact-edit-button";
 import { Favorite } from "./contact-favorite-button";
 
-export async function ContactDetails({ id }: { id: string }) {
-  const { contact } = await getContactServerFn(id);
+export function ContactDetails({ id }: { id: string }) {
+  const contactQuery = useSuspenseQuery(useGetContactQueryOptions(id));
+  const { contact } = contactQuery.data;
 
   if (!contact) {
     notFound();

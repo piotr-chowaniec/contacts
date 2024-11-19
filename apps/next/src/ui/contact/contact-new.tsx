@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { getQueryClient } from "~/get-query-client";
 import { createContactServerFn } from "~/server/queries";
 
 import { UpdateContactSchema } from "@contacts/server/validation";
@@ -11,6 +12,8 @@ import { ContactEditForm } from "./contact-form";
 export function ContactNew() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const queryClient = getQueryClient();
+
   const [errors, setErrors] = useState<Record<string, string[]>>({});
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,6 +34,10 @@ export function ContactNew() {
     }
 
     const { contact } = await createContactServerFn(validatedFields.data);
+
+    await queryClient.invalidateQueries({
+      queryKey: ["contact"],
+    });
 
     router.push(`/contacts/${contact.id}${searchParams ? `?${searchParams.toString()}` : ""}`);
   };

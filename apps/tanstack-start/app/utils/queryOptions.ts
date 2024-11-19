@@ -13,24 +13,24 @@ import {
 
 export const useGetMyContactsQueryOptions = (userId: string, q?: string) => {
   return queryOptions({
-    queryKey: q ? ["contact", q] : ["contact"],
+    queryKey: q ? [userId, "contact", q] : [userId, "contact"],
     queryFn: () => getMyContactsServerFn({ userId, q }),
   });
 };
 
 export const useGetContactQueryOptions = (userId: string, contactId: string) =>
   queryOptions({
-    queryKey: ["contact", contactId],
+    queryKey: [userId, "contact", contactId],
     queryFn: () => getContactServerFn({ userId, contactId }),
   });
 
 export const useCreateContactMutation = (queryClient: QueryClient, userId: string) =>
   useMutation({
-    mutationKey: ["contact", "create"],
+    mutationKey: [userId, "contact", "create"],
     mutationFn: (data: UpdateContact) => createContactServerFn({ userId, data }),
     onSettled: () =>
       queryClient.invalidateQueries({
-        queryKey: ["contact"],
+        queryKey: [userId, "contact"],
       }),
   });
 
@@ -40,11 +40,11 @@ export const useUpdateContactMutation = (
   contactId: string,
 ) =>
   useMutation({
-    mutationKey: ["contact", "update", contactId],
+    mutationKey: [userId, "contact", "update", contactId],
     mutationFn: (data: UpdateContact) => updateContactServerFn({ userId, contactId, data }),
     onSettled: () =>
       queryClient.invalidateQueries({
-        queryKey: ["contact"],
+        queryKey: [userId, "contact"],
       }),
   });
 
@@ -54,7 +54,7 @@ export const useDeleteContactMutation = (
   contactId: string,
 ) =>
   useMutation({
-    mutationKey: ["contact", "delete", contactId],
+    mutationKey: [userId, "contact", "delete", contactId],
     mutationFn: () => deleteContactServerFn({ userId, contactId }),
     onSettled: () =>
       queryClient.invalidateQueries({
@@ -64,10 +64,10 @@ export const useDeleteContactMutation = (
 
 export const useSeedContactsMutation = (queryClient: QueryClient, userId: string) =>
   useMutation({
-    mutationKey: ["contact", "seed"],
+    mutationKey: [userId, "contact", "seed"],
     mutationFn: () => seedContactsServerFn({ userId }),
     onSettled: () =>
       queryClient.invalidateQueries({
-        queryKey: ["contact"],
+        queryKey: [userId, "contact"],
       }),
   });

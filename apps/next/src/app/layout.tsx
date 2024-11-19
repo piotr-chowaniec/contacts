@@ -1,5 +1,5 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import { type Metadata } from "next";
+import Providers from "~/providers";
 import NavLinks from "~/ui/nav-links";
 import TopNav from "~/ui/top-nav";
 
@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>
+    <html lang="en">
+      <body>
+        <Providers>
           <div className="flex h-screen w-screen flex-col p-2">
             <TopNav />
             <div className={`flex h-full`}>
@@ -23,8 +23,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <div className={`flex h-full flex-1 border-l`}>{children}</div>
             </div>
           </div>
-        </body>
-      </html>
-    </ClerkProvider>
+        </Providers>
+      </body>
+    </html>
   );
 }
