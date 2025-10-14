@@ -4,36 +4,46 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
-} from "@clerk/tanstack-start";
-import { getAuth } from "@clerk/tanstack-start/server";
+} from "@clerk/tanstack-react-start";
+import { getAuth } from "@clerk/tanstack-react-start/server";
+import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
   Link,
+  Scripts,
   Outlet,
-  ScrollRestoration,
   createRootRouteWithContext,
+  HeadContent,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import { createServerFn, Meta, Scripts } from "@tanstack/start";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { createServerFn } from "@tanstack/react-start";
+import { getWebRequest } from "@tanstack/react-start/server";
 import * as React from "react";
-import { getWebRequest } from "vinxi/http";
-import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
-import { NotFound } from "~/components/NotFound";
 
 import styles from "@contacts/ui/styles/global.css?url";
 
+import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary";
+import { NotFound } from "../components/NotFound";
+
 const fetchClerkAuth = createServerFn({ method: "GET" }).handler(async () => {
-  const auth = await getAuth(getWebRequest());
+  const { userId } = await getAuth(getWebRequest());
 
   return {
-    auth,
+    auth: { userId },
   };
 });
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
+  beforeLoad: async () => {
+    const { auth } = await fetchClerkAuth();
+
+    return {
+      auth,
+    };
+  },
   head: () => ({
     meta: [
       {
@@ -49,12 +59,6 @@ export const Route = createRootRouteWithContext<{
     ],
     links: [{ rel: "stylesheet", href: styles }],
   }),
-  beforeLoad: async () => {
-    const { auth } = await fetchClerkAuth();
-    return {
-      auth,
-    };
-  },
   errorComponent: (props) => {
     return (
       <ClerkProvider>
@@ -82,7 +86,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html>
       <head>
-        <Meta />
+        <HeadContent />
       </head>
       <body>
         <div className="flex h-screen w-screen flex-col p-2">
@@ -138,9 +142,21 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <div className={`flex h-full flex-1 border-l`}>{children}</div>
           </div>
         </div>
-        <ScrollRestoration />
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
+        <TanStackDevtools
+          config={{
+            position: "bottom-right",
+          }}
+          plugins={[
+            {
+              name: "Tanstack Router",
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+            {
+              name: "Tanstack Query",
+              render: <ReactQueryDevtools />,
+            },
+          ]}
+        />
         <Scripts />
       </body>
     </html>

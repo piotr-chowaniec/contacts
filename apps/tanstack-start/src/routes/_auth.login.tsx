@@ -1,4 +1,4 @@
-import { SignInButton } from "@clerk/tanstack-start";
+import { SignInButton } from "@clerk/tanstack-react-start";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import z from "zod";
 

@@ -1,6 +1,6 @@
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, Link, Navigate, Outlet, useLocation } from "@tanstack/react-router";
+import { createFileRoute, Link, Navigate, Outlet } from "@tanstack/react-router";
 import _ from "lodash";
 import { Suspense, useEffect, useMemo, useState } from "react";
 
@@ -17,23 +17,24 @@ export const Route = createFileRoute("/contacts")({
       sortBy?: SortBy;
     },
   loaderDeps: ({ search: { q } }) => ({ q }),
-  loader: (opts) => ({
-    contactsPromise: opts.context.queryClient.ensureQueryData(
-      useGetMyContactsQueryOptions(opts.context.auth, opts.deps.q),
-    ),
-  }),
+  loader: (opts) => {
+    if (opts.context.auth.userId) {
+      opts.context.queryClient.ensureQueryData(
+        useGetMyContactsQueryOptions(opts.context.auth, opts.deps.q),
+      );
+    }
+  },
   pendingComponent: RouteSpinner,
   component: ContactsComponent,
 });
 
 function ContactsComponent() {
-  const location = useLocation();
   const navigate = Route.useNavigate();
 
   return (
     <>
       <SignedOut>
-        <Navigate to={"/login"} search={{ redirect: location.href }} />
+        <Navigate to={"/login"} search={{ redirect: "/contacts" }} />
       </SignedOut>
       <SignedIn>
         <div className="flex h-full w-80 flex-col items-center gap-4 border-r py-4">

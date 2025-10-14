@@ -16,11 +16,13 @@ export const Route = createFileRoute("/_authed/contacts")({
       sortBy?: SortBy;
     },
   loaderDeps: ({ search: { q } }) => ({ q }),
-  loader: (opts) => ({
-    contactsPromise: opts.context.queryClient.ensureQueryData(
-      useGetMyContactsQueryOptions(opts.context.auth.userId!, opts.deps.q),
-    ),
-  }),
+  loader: (opts) => {
+    if (opts.context.auth.userId) {
+      opts.context.queryClient.ensureQueryData(
+        useGetMyContactsQueryOptions(opts.context.auth.userId, opts.deps.q),
+      );
+    }
+  },
   pendingComponent: RouteSpinner,
   component: ContactsComponent,
 });
@@ -167,7 +169,8 @@ const ContactsList = () => {
       {sortedContacts.map((contact) => (
         <li key={contact.id}>
           <Link
-            to={`/contacts/${contact.id}`}
+            to="/contacts/$contactId"
+            params={{ contactId: contact.id }}
             search={(prev) => prev}
             activeProps={{
               className: "font-bold",

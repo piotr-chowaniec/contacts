@@ -15,8 +15,13 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./src/*"],
+      "@contacts/ui": ["../../shared/ui"],
+      "@contacts/server": ["../../shared/server"]
     },
-    "noEmit": true
+    "noEmit": true,
+    "types": ["vite/client"],
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false
   }
 }
