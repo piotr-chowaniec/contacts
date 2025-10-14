@@ -1,4 +1,4 @@
-import { Contact } from "@contacts/server/db/schema";
+import type { Contact } from "@contacts/server/db/schema";
 
 import avatarFallback from "../assets/images/avatar-fallback.png";
 

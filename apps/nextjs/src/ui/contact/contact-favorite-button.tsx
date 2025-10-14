@@ -1,17 +1,16 @@
 "use client";
 
+import type { Contact } from "@contacts/server/db/schema";
 import { useOptimistic } from "react";
 import { getQueryClient } from "~/get-query-client";
 import { updateContactServerFn } from "~/server/queries";
-
-import { Contact } from "@contacts/server/db/schema";
 
 export function Favorite({ contact }: { contact: Contact }) {
   const queryClient = getQueryClient();
 
   const [optimisticContact, changeOptimisticContact] = useOptimistic<Contact, boolean>(
     contact,
-    (state, newFavorite) => ({ ...state, favorite: newFavorite }),
+    (state, newFavorite) => ({ ...state, favorite: newFavorite })
   );
 
   const handleFavoriteChange = async () => {

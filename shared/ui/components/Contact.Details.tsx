@@ -1,4 +1,4 @@
-import { Contact } from "@contacts/server/db/schema";
+import type { Contact } from "@contacts/server/db/schema";
 
 export const ContactDetails = ({
   contact,
@@ -17,7 +17,7 @@ export const ContactDetails = ({
     <div className="h-60 w-60 overflow-hidden rounded-3xl bg-white">{ContactImage}</div>
 
     <div className="flex flex-col gap-6">
-      <h1 className="align-center flex gap-4 text-3xl font-bold">
+      <h1 className="flex gap-4 align-center font-bold text-3xl">
         {contact.firstName || contact.lastName ? (
           <>
             {contact.firstName} {contact.lastName}

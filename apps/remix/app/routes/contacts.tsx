@@ -1,23 +1,22 @@
 import { getAuth } from "@clerk/remix/ssr.server";
-import { defer, redirect } from "@remix-run/node";
+import type { Contact } from "@contacts/server/db/schema";
+import { getMyContacts } from "@contacts/server/queries";
+import { RouteSpinner } from "@contacts/ui/components/Spinner";
 import type { LoaderFunctionArgs } from "@remix-run/node";
+import { defer, redirect } from "@remix-run/node";
 import {
+  Await,
   isRouteErrorResponse,
   NavLink,
   Outlet,
   useLoaderData,
+  useLocation,
   useNavigate,
   useRouteError,
-  Await,
   useSearchParams,
-  useLocation,
 } from "@remix-run/react";
 import _ from "lodash";
 import { Suspense, useEffect, useMemo, useState } from "react";
-
-import { Contact } from "@contacts/server/db/schema";
-import { getMyContacts } from "@contacts/server/queries";
-import { RouteSpinner } from "@contacts/ui/components/Spinner";
 
 type SortBy = "firstName" | "lastName" | "email";
 
@@ -73,6 +72,7 @@ export default function ContactsLayout() {
           <ContactSort />
           <ContactSearch />
           <button
+            type="button"
             className="h-8 w-full p-0"
             onClick={() => navigate(`/contacts/new${location.search}`)}
           >
@@ -121,7 +121,11 @@ const ContactSort = () => {
           { value: "lastName", label: "Last Name" },
           { value: "email", label: "Email" },
         ].map(({ value, label }) => {
-          return <option key={value} value={value} children={label} />;
+          return (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          );
         })}
       </select>
     </div>
@@ -149,14 +153,14 @@ const ContactSearch = () => {
 
       return prev;
     });
-  }, [querySearch]);
+  }, [querySearch, setSearchParams]);
 
   const debounceSearchParamChange = useMemo(
     () =>
       _.debounce((value: string) => {
         setQuerySearch(value);
       }, 500),
-    [],
+    []
   );
 
   return (

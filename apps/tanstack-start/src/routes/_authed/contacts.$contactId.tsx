@@ -1,12 +1,11 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-
-import { Contact } from "@contacts/server/db/schema";
+import type { Contact } from "@contacts/server/db/schema";
 import { ContactDetails } from "@contacts/ui/components/Contact.Details";
 import { ContactError } from "@contacts/ui/components/Contact.Error";
 import { ContactImage } from "@contacts/ui/components/Contact.Image";
 import { ContactSkeleton } from "@contacts/ui/components/Contact.Skeleton";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
 import {
   useDeleteContactMutation,
@@ -17,7 +16,7 @@ import {
 export const Route = createFileRoute("/_authed/contacts/$contactId")({
   loader: (opts) =>
     opts.context.queryClient.ensureQueryData(
-      useGetContactQueryOptions(opts.context.auth.userId!, opts.params.contactId),
+      useGetContactQueryOptions(opts.context.auth.userId!, opts.params.contactId)
     ),
   pendingComponent: ContactSkeleton,
   component: ContactComponent,
@@ -30,14 +29,14 @@ function ContactComponent() {
   const navigate = Route.useNavigate();
 
   const contactQuery = useSuspenseQuery(
-    useGetContactQueryOptions(context.auth.userId!, params.contactId),
+    useGetContactQueryOptions(context.auth.userId!, params.contactId)
   );
   const contact = contactQuery.data.contact as Contact;
 
   const deleteContact = useDeleteContactMutation(
     context.queryClient,
     context.auth.userId!,
-    params.contactId,
+    params.contactId
   );
 
   return (
@@ -90,7 +89,7 @@ const Favorite = ({ contact }: { contact: Contact }) => {
   const updateContactFavorite = useUpdateContactMutation(
     context.queryClient,
     context.auth.userId!,
-    params.contactId,
+    params.contactId
   );
 
   const [isFavorite, setFavorite] = useState<boolean>(Boolean(contact.favorite));
@@ -109,6 +108,7 @@ const Favorite = ({ contact }: { contact: Contact }) => {
 
   return (
     <button
+      type="button"
       aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
       name="favorite"
       value={isFavorite ? "false" : "true"}

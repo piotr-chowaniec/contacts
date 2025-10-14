@@ -10,7 +10,7 @@ import {
   seedContacts,
   updateContact,
 } from "./api";
-import { Auth } from "./auth";
+import type { Auth } from "./auth";
 
 export const useGetMyContactsQueryOptions = (auth: Auth, q?: string) => {
   return queryOptions({

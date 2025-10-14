@@ -1,6 +1,6 @@
 import { SignInButton } from "@clerk/remix";
 import { getAuth } from "@clerk/remix/ssr.server";
-import { LoaderFunctionArgs, redirect } from "@remix-run/node";
+import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const { userId } = await getAuth(args);

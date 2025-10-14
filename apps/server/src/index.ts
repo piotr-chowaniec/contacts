@@ -17,7 +17,7 @@ app.use(morgan("dev"));
 
 app.use(clerkMiddleware());
 
-app.head("/healthcheck", (req, res) => {
+app.head("/healthcheck", (_req, res) => {
   res.sendStatus(200);
 });
 

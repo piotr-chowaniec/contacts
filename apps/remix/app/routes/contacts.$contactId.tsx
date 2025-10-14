@@ -1,6 +1,12 @@
 import { getAuth } from "@clerk/remix/ssr.server";
-import { defer, redirect } from "@remix-run/node";
+import type { Contact as ContactType } from "@contacts/server/db/schema";
+import { getContact, updateContactFavorite } from "@contacts/server/queries";
+import { ContactDetails } from "@contacts/ui/components/Contact.Details";
+import { ContactError } from "@contacts/ui/components/Contact.Error";
+import { ContactImage } from "@contacts/ui/components/Contact.Image";
+import { ContactSkeleton } from "@contacts/ui/components/Contact.Skeleton";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { defer, redirect } from "@remix-run/node";
 import {
   Await,
   Form,
@@ -11,14 +17,7 @@ import {
   useNavigate,
   useParams,
 } from "@remix-run/react";
-import { Suspense, type FunctionComponent } from "react";
-
-import type { Contact } from "@contacts/server/db/schema";
-import { getContact, updateContactFavorite } from "@contacts/server/queries";
-import { ContactDetails } from "@contacts/ui/components/Contact.Details";
-import { ContactError } from "@contacts/ui/components/Contact.Error";
-import { ContactImage } from "@contacts/ui/components/Contact.Image";
-import { ContactSkeleton } from "@contacts/ui/components/Contact.Skeleton";
+import { type FunctionComponent, Suspense } from "react";
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const { contactId } = args.params;
@@ -68,7 +67,7 @@ export default function Contact() {
 }
 
 const ContactDetailsWrapper = () => {
-  const contact = useAsyncValue() as Contact;
+  const contact = useAsyncValue() as ContactType;
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -77,7 +76,11 @@ const ContactDetailsWrapper = () => {
       contact={contact}
       ContactImage={<ContactImage contact={contact} />}
       Favorite={<Favorite isFavorite={Boolean(contact.favorite)} />}
-      EditButton={<button onClick={() => navigate(`edit${location.search}`)}>Edit</button>}
+      EditButton={
+        <button type="button" onClick={() => navigate(`edit${location.search}`)}>
+          Edit
+        </button>
+      }
       DeleteButton={
         <Form
           action={`destroy${location.search}`}
@@ -108,6 +111,7 @@ const Favorite: FunctionComponent<{
   return (
     <fetcher.Form method="post">
       <button
+        type="submit"
         aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
         name="favorite"
         value={favorite ? "false" : "true"}

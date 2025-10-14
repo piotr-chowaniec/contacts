@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import { getMyContactsServerFn, getContactServerFn } from "./queries";
+import { getContactServerFn, getMyContactsServerFn } from "./queries";
 
 export const useGetMyContactsQueryOptions = (q?: string) =>
   queryOptions({

@@ -1,3 +1,4 @@
+import { RouteSpinner } from "@contacts/ui/components/Spinner";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { getQueryClient } from "~/get-query-client";
@@ -6,8 +7,6 @@ import { ContactsList, type SortBy } from "~/ui/contacts-sidebar/contacts-list";
 import { ContactsNewButton } from "~/ui/contacts-sidebar/contacts-new-button";
 import { ContactSearch } from "~/ui/contacts-sidebar/contacts-search";
 import { ContactSort } from "~/ui/contacts-sidebar/contacts-sort";
-
-import { RouteSpinner } from "@contacts/ui/components/Spinner";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 

@@ -1,13 +1,12 @@
 "use client";
 
+import { UpdateContactSchema } from "@contacts/server/validation";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { notFound, useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { type FormEvent, useState } from "react";
 import { getQueryClient } from "~/get-query-client";
 import { updateContactServerFn } from "~/server/queries";
 import { useGetContactQueryOptions } from "~/server/queryOptions";
-
-import { UpdateContactSchema } from "@contacts/server/validation";
 
 import { ContactEditForm } from "./contact-form";
 

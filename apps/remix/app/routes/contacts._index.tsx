@@ -1,8 +1,7 @@
 import { getAuth } from "@clerk/remix/ssr.server";
-import { ActionFunctionArgs, redirect } from "@remix-run/node";
-import { Form, useOutletContext } from "@remix-run/react";
-
 import { seedContacts } from "@contacts/server/queries";
+import { type ActionFunctionArgs, redirect } from "@remix-run/node";
+import { Form, useOutletContext } from "@remix-run/react";
 
 export const action = async (args: ActionFunctionArgs) => {
   const { userId } = await getAuth(args);

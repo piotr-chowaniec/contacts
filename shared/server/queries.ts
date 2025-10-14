@@ -3,10 +3,10 @@ import { and, eq } from "drizzle-orm";
 import { db } from "./db";
 import { contacts } from "./db/schema";
 import { TEST_CONTACTS } from "./db/seed";
-import { UpdateContact, UpdateContactFavorite } from "./validation";
+import type { UpdateContact, UpdateContactFavorite } from "./validation";
 
 const FORCED_NETWORK_LATENCY = process.env.FORCED_NETWORK_LATENCY
-  ? parseInt(process.env.FORCED_NETWORK_LATENCY)
+  ? parseInt(process.env.FORCED_NETWORK_LATENCY, 10)
   : 1000;
 
 export async function getMyContacts(userId: string, query?: string | null) {
@@ -21,8 +21,8 @@ export async function getMyContacts(userId: string, query?: string | null) {
           or(
             ilike(model.firstName, `%${query}%`),
             ilike(model.lastName, `%${query}%`),
-            ilike(model.email, `%${query}%`),
-          ),
+            ilike(model.email, `%${query}%`)
+          )
         ),
       orderBy: (model, { desc }) => desc(model.id),
     });
@@ -86,7 +86,7 @@ export async function updateContact(userId: string, id: string, updates: UpdateC
 export async function updateContactFavorite(
   userId: string,
   id: string,
-  updates: UpdateContactFavorite,
+  updates: UpdateContactFavorite
 ) {
   // Simulate network latency
   await new Promise((resolve) => setTimeout(resolve, FORCED_NETWORK_LATENCY));

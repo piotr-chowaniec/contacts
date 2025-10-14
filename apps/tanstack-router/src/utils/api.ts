@@ -1,11 +1,11 @@
-import { Contact } from "@contacts/server/db/schema";
-import { UpdateContact } from "@contacts/server/validation";
+import type { Contact } from "@contacts/server/db/schema";
+import type { UpdateContact } from "@contacts/server/validation";
 
-import { Auth } from "./auth";
+import type { Auth } from "./auth";
 
 export const getMyContacts = (auth: Auth, q?: string) => async () => {
   const token = await auth.getToken();
-  const url = `${import.meta.env.VITE_API_URL}/contact` + (q ? `?q=${q}` : "");
+  const url = `${import.meta.env.VITE_API_URL}/contact${q ? `?q=${q}` : ""}`;
   const response = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
   });

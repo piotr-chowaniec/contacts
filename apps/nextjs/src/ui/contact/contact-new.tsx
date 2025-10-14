@@ -1,11 +1,10 @@
 "use client";
 
+import { UpdateContactSchema } from "@contacts/server/validation";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { getQueryClient } from "~/get-query-client";
 import { createContactServerFn } from "~/server/queries";
-
-import { UpdateContactSchema } from "@contacts/server/validation";
 
 import { ContactEditForm } from "./contact-form";
 

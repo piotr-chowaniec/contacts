@@ -1,27 +1,26 @@
 import {
   ClerkProvider,
-  SignInButton,
   SignedIn,
   SignedOut,
+  SignInButton,
   UserButton,
 } from "@clerk/tanstack-react-start";
 import { getAuth } from "@clerk/tanstack-react-start/server";
+import styles from "@contacts/ui/styles/global.css?url";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
-  Link,
-  Scripts,
-  Outlet,
   createRootRouteWithContext,
   HeadContent,
+  Link,
+  Outlet,
+  Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
 import { getWebRequest } from "@tanstack/react-start/server";
-import * as React from "react";
-
-import styles from "@contacts/ui/styles/global.css?url";
+import type * as React from "react";
 
 import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary";
 import { NotFound } from "../components/NotFound";
@@ -84,7 +83,7 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html lang="en">
       <head>
         <HeadContent />
       </head>

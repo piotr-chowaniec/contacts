@@ -1,10 +1,9 @@
+import { ContactSkeleton } from "@contacts/ui/components/Contact.Skeleton";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { getQueryClient } from "~/get-query-client";
 import { useGetContactQueryOptions } from "~/server/queryOptions";
 import { ContactDetails } from "~/ui/contact/contact-details";
-
-import { ContactSkeleton } from "@contacts/ui/components/Contact.Skeleton";
 
 type Params = Promise<{ id: string }>;
 

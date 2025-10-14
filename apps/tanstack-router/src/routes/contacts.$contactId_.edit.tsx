@@ -1,16 +1,15 @@
+import { UpdateContactSchema } from "@contacts/server/validation";
+import { EditForm } from "@contacts/ui/components/Contact.Form";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
-
-import { UpdateContactSchema } from "@contacts/server/validation";
-import { EditForm } from "@contacts/ui/components/Contact.Form";
 
 import { useGetContactQueryOptions, useUpdateContactMutation } from "../utils/queryOptions";
 
 export const Route = createFileRoute("/contacts/$contactId_/edit")({
   loader: (opts) =>
     opts.context.queryClient.ensureQueryData(
-      useGetContactQueryOptions(opts.context.auth, opts.params.contactId),
+      useGetContactQueryOptions(opts.context.auth, opts.params.contactId)
     ),
   component: ContactEditComponent,
 });

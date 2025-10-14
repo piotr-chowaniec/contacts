@@ -1,17 +1,16 @@
+import type { Contact } from "@contacts/server/db/schema";
+import { UpdateContactSchema } from "@contacts/server/validation";
+import { EditForm } from "@contacts/ui/components/Contact.Form";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
-
-import { Contact } from "@contacts/server/db/schema";
-import { UpdateContactSchema } from "@contacts/server/validation";
-import { EditForm } from "@contacts/ui/components/Contact.Form";
 
 import { useGetContactQueryOptions, useUpdateContactMutation } from "../../utils/queryOptions";
 
 export const Route = createFileRoute("/_authed/contacts/$contactId_/edit")({
   loader: (opts) =>
     opts.context.queryClient.ensureQueryData(
-      useGetContactQueryOptions(opts.context.auth.userId!, opts.params.contactId),
+      useGetContactQueryOptions(opts.context.auth.userId!, opts.params.contactId)
     ),
   component: ContactEditComponent,
 });
@@ -25,14 +24,14 @@ function ContactEditComponent() {
   const router = useRouter();
 
   const contactQuery = useSuspenseQuery(
-    useGetContactQueryOptions(context.auth.userId!, params.contactId),
+    useGetContactQueryOptions(context.auth.userId!, params.contactId)
   );
   const { contact } = contactQuery.data;
 
   const updateContact = useUpdateContactMutation(
     context.queryClient,
     context.auth.userId!,
-    params.contactId,
+    params.contactId
   );
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {

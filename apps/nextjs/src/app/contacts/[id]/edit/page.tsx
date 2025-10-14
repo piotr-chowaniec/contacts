@@ -1,10 +1,9 @@
+import { RouteSpinner } from "@contacts/ui/components/Spinner";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { getQueryClient } from "~/get-query-client";
 import { useGetContactQueryOptions } from "~/server/queryOptions";
 import { ContactEdit } from "~/ui/contact/contact-edit";
-
-import { RouteSpinner } from "@contacts/ui/components/Spinner";
 
 type Params = Promise<{ id: string }>;
 

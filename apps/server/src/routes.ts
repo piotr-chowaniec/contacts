@@ -1,6 +1,4 @@
-import { AuthObject, getAuth } from "@clerk/express";
-import express, { Request, Response } from "express";
-
+import { getAuth } from "@clerk/express";
 import {
   addContact,
   deleteContact,
@@ -10,12 +8,13 @@ import {
   updateContact,
 } from "@contacts/server/queries";
 import { UpdateContactSchema } from "@contacts/server/validation";
+import express, { type Request, type Response } from "express";
 
 const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
   try {
-    const { userId } = getAuth(req)
+    const { userId } = getAuth(req);
 
     const contacts = await getMyContacts(userId!, req.query.q as string);
     res.json({
@@ -32,7 +31,7 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { userId } = getAuth(req)
+    const { userId } = getAuth(req);
 
     const validatedFields = UpdateContactSchema.safeParse(req.body);
 
@@ -57,7 +56,7 @@ router.post("/", async (req: Request, res: Response) => {
 
 router.post("/seed", async (req: Request, res: Response) => {
   try {
-    const { userId } = getAuth(req)
+    const { userId } = getAuth(req);
 
     const contacts = await seedContacts(userId!);
     res.status(201).json({ contacts });
@@ -72,7 +71,7 @@ router.post("/seed", async (req: Request, res: Response) => {
 
 router.get("/:contactId", async (req: Request, res: Response) => {
   try {
-    const { userId } = getAuth(req)
+    const { userId } = getAuth(req);
 
     const contact = await getContact(userId!, req.params.contactId);
 
@@ -93,7 +92,7 @@ router.get("/:contactId", async (req: Request, res: Response) => {
 
 router.put("/:contactId", async (req: Request, res: Response) => {
   try {
-    const { userId } = getAuth(req)
+    const { userId } = getAuth(req);
 
     const validatedFields = UpdateContactSchema.safeParse(req.body);
 
@@ -119,7 +118,7 @@ router.put("/:contactId", async (req: Request, res: Response) => {
 
 router.delete("/:contactId", async (req: Request, res: Response) => {
   try {
-    const { userId } = getAuth(req)
+    const { userId } = getAuth(req);
 
     await deleteContact(userId!, req.params.contactId);
     res.sendStatus(204);

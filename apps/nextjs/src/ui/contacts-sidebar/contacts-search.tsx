@@ -15,20 +15,19 @@ export function ContactSearch() {
     if (querySearch !== queryInput) {
       setQueryInput(querySearch);
     }
-  }, [querySearch]);
+  }, [querySearch, queryInput]);
 
   const debounceSearchParamChange = useMemo(
     () =>
       _.debounce((value: string) => {
         void setQuerySearch(value);
       }, 500),
-    [],
+    [setQuerySearch]
   );
 
   return (
     <input
       aria-label="Search contacts"
-      id="search"
       name="search"
       className="w-full rounded p-1 px-2"
       onChange={(e) => {

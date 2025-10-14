@@ -1,4 +1,4 @@
-import { Contact } from "@contacts/server/db/schema";
+import type { Contact } from "@contacts/server/db/schema";
 
 export function EditForm({
   contact,
@@ -27,7 +27,7 @@ export function EditForm({
             type="text"
             disabled={isPending}
           />
-          {errors?.firstName ? <em className="text-sm text-red-700">{errors.firstName}</em> : null}
+          {errors?.firstName ? <em className="text-red-700 text-sm">{errors.firstName}</em> : null}
         </div>
         <div className="ml-2 flex flex-1 flex-col gap-2">
           <input
@@ -39,7 +39,7 @@ export function EditForm({
             type="text"
             disabled={isPending}
           />
-          {errors?.lastName ? <em className="text-sm text-red-700">{errors.lastName}</em> : null}
+          {errors?.lastName ? <em className="text-red-700 text-sm">{errors.lastName}</em> : null}
         </div>
       </div>
       <div className="flex">
@@ -55,7 +55,7 @@ export function EditForm({
             type="email"
             disabled={isPending}
           />
-          {errors?.email ? <em className="text-sm text-red-700">{errors.email}</em> : null}
+          {errors?.email ? <em className="text-red-700 text-sm">{errors.email}</em> : null}
         </div>
       </div>
       <div className="flex">
@@ -71,7 +71,7 @@ export function EditForm({
             type="text"
             disabled={isPending}
           />
-          {errors?.avatarUrl ? <em className="text-sm text-red-700">{errors.avatarUrl}</em> : null}
+          {errors?.avatarUrl ? <em className="text-red-700 text-sm">{errors.avatarUrl}</em> : null}
         </div>
       </div>
       <div className="ml-24 flex gap-4">

@@ -1,7 +1,6 @@
+import { RouteSpinner } from "@contacts/ui/components/Spinner";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-
-import { RouteSpinner } from "@contacts/ui/components/Spinner";
 
 import { useGetMyContactsQueryOptions, useSeedContactsMutation } from "../../utils/queryOptions";
 
@@ -27,6 +26,7 @@ function ContactsIndexComponent() {
           <p>You can also seed database with test data</p>
 
           <button
+            type="button"
             className="mt-2"
             onClick={() => {
               seedContacts.mutate();

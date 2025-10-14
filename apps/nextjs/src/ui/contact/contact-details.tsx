@@ -1,12 +1,11 @@
 "use client";
 
+import avatarFallback from "@contacts/ui/assets/images/avatar-fallback.png";
+import { ContactDetails as ContactComponent } from "@contacts/ui/components/Contact.Details";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { useGetContactQueryOptions } from "~/server/queryOptions";
-
-import avatarFallback from "@contacts/ui/assets/images/avatar-fallback.png";
-import { ContactDetails as ContactComponent } from "@contacts/ui/components/Contact.Details";
 
 import { ContactDeleteButton } from "./contact-delete-button";
 import { ContactEditButton } from "./contact-edit-button";

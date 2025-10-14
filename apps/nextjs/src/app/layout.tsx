@@ -1,4 +1,4 @@
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 import Providers from "~/providers";
 import NavLinks from "~/ui/nav-links";
 import TopNav from "~/ui/top-nav";

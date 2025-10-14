@@ -1,10 +1,9 @@
+import { RouteSpinner } from "@contacts/ui/components/Spinner";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { getQueryClient } from "~/get-query-client";
 import { useGetMyContactsQueryOptions } from "~/server/queryOptions";
 import { ContactDefaultPage } from "~/ui/contact/contact-index";
-
-import { RouteSpinner } from "@contacts/ui/components/Spinner";
 
 export default function ContactsPage() {
   const queryClient = getQueryClient();

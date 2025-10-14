@@ -2,7 +2,7 @@
 
 import { useQueryState } from "nuqs";
 
-import { SortBy } from "./contacts-list";
+import type { SortBy } from "./contacts-list";
 
 export function ContactSort() {
   const [sortBy, setSortBy] = useQueryState("sortBy", {
@@ -23,7 +23,11 @@ export function ContactSort() {
           { value: "lastName", label: "Last Name" },
           { value: "email", label: "Email" },
         ].map(({ value, label }) => {
-          return <option key={value} value={value} children={label} />;
+          return (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          );
         })}
       </select>
     </div>

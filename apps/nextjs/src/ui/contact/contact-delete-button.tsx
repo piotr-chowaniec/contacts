@@ -11,6 +11,7 @@ export function ContactDeleteButton({ contactId }: { contactId: string }) {
 
   return (
     <button
+      type="button"
       className="text-red-600"
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onClick={async () => {

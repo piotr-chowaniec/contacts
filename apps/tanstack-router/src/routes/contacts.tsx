@@ -1,10 +1,9 @@
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import { RouteSpinner } from "@contacts/ui/components/Spinner";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Navigate, Outlet } from "@tanstack/react-router";
 import _ from "lodash";
 import { Suspense, useEffect, useMemo, useState } from "react";
-
-import { RouteSpinner } from "@contacts/ui/components/Spinner";
 
 import { useGetMyContactsQueryOptions } from "../utils/queryOptions";
 
@@ -20,7 +19,8 @@ export const Route = createFileRoute("/contacts")({
   loader: (opts) => {
     if (opts.context.auth.userId) {
       opts.context.queryClient.ensureQueryData(
-        useGetMyContactsQueryOptions(opts.context.auth, opts.deps.q),
+        // biome-ignore lint/correctness/useHookAtTopLevel: it's not a hook
+        useGetMyContactsQueryOptions(opts.context.auth, opts.deps.q)
       );
     }
   },
@@ -97,7 +97,11 @@ const ContactSort = () => {
           { value: "lastName", label: "Last Name" },
           { value: "email", label: "Email" },
         ].map(({ value, label }) => {
-          return <option key={value} value={value} children={label} />;
+          return (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          );
         })}
       </select>
     </div>
@@ -123,21 +127,21 @@ const ContactSearch = () => {
             ...old,
             q: querySearch,
           },
-          Boolean,
+          Boolean
         );
 
         return newSearchParams;
       },
       replace: true,
     });
-  }, [querySearch]);
+  }, [querySearch, navigate]);
 
   const debounceSearchParamChange = useMemo(
     () =>
       _.debounce((value: string) => {
         setQuerySearch(value);
       }, 500),
-    [],
+    []
   );
 
   return (

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.2.6/schema.json",
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedVariables": "error",
+        "useUniqueElementIds": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "warn",
+        "useConst": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "warn",
+        "noUnknownAtRules": "off"
+      },
+      "nursery": {
+        "useSortedClasses": "error"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf"
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "es5",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "double",
+      "attributePosition": "auto"
+    }
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "biome.json",
+      "apps/**",
+      "shared/**",
+      "scripts/**",
+      "!**/dist",
+      "!**/build",
+      "!**/.turbo",
+      "!**/.vercel",
+      "!**/.next",
+      "!**/node_modules",
+      "!**/routeTree.gen.ts"
+    ]
+  }
+}

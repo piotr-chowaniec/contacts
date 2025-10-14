@@ -1,17 +1,16 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
-
 import {
-  getMyContacts,
   addContact,
-  seedContacts,
-  getContact,
-  updateContact,
   deleteContact,
+  getContact,
+  getMyContacts,
+  seedContacts,
+  updateContact,
 } from "@contacts/server/queries";
-import { UpdateContact } from "@contacts/server/validation";
+import type { UpdateContact } from "@contacts/server/validation";
+import { revalidatePath } from "next/cache";
 
 export async function getMyContactsServerFn(q?: string) {
   const user = await auth();

@@ -1,7 +1,6 @@
 import { getAuth } from "@clerk/remix/ssr.server";
-import { redirect, type ActionFunctionArgs } from "@remix-run/node";
-
 import { deleteContact } from "@contacts/server/queries";
+import { type ActionFunctionArgs, redirect } from "@remix-run/node";
 
 export const action = async (args: ActionFunctionArgs) => {
   const { contactId } = args.params;

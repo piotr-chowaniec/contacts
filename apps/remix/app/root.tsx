@@ -1,7 +1,7 @@
 import { ClerkApp, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/remix";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
-import type { LinksFunction } from "@remix-run/node";
-import type { LoaderFunction } from "@remix-run/node";
+import styles from "@contacts/ui/styles/global.css?url";
+import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   Links,
@@ -13,38 +13,36 @@ import {
   useRouteError,
 } from "@remix-run/react";
 
-import styles from "@contacts/ui/styles/global.css?url";
-
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export const loader: LoaderFunction = (args) => rootAuthLoader(args);
 
+const ErrorToRender = ({ error }: { error: unknown }) => {
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>
+          {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+      </div>
+    );
+  } else if (error instanceof Error) {
+    return (
+      <div>
+        <h1>Error</h1>
+        <p>{error.message}</p>
+        <p>The stack trace is:</p>
+        <pre>{error.stack}</pre>
+      </div>
+    );
+  } else {
+    return <h1>Unknown Error</h1>;
+  }
+};
+
 export function ErrorBoundary() {
   const error = useRouteError();
-
-  const ErrorToRender = () => {
-    if (isRouteErrorResponse(error)) {
-      return (
-        <div>
-          <h1>
-            {error.status} {error.statusText}
-          </h1>
-          <p>{error.data}</p>
-        </div>
-      );
-    } else if (error instanceof Error) {
-      return (
-        <div>
-          <h1>Error</h1>
-          <p>{error.message}</p>
-          <p>The stack trace is:</p>
-          <pre>{error.stack}</pre>
-        </div>
-      );
-    } else {
-      return <h1>Unknown Error</h1>;
-    }
-  };
 
   return (
     <html lang="en">
@@ -82,7 +80,7 @@ export function ErrorBoundary() {
               })}
             </div>
             <div className={`flex flex-1 flex-col items-center justify-center border-l`}>
-              <ErrorToRender />
+              <ErrorToRender error={error} />
             </div>
           </div>
         </div>

@@ -1,10 +1,9 @@
 "use client";
 
+import type { Contact } from "@contacts/server/db/schema";
+import { EditForm } from "@contacts/ui/components/Contact.Form";
 import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
-
-import { Contact } from "@contacts/server/db/schema";
-import { EditForm } from "@contacts/ui/components/Contact.Form";
 
 export function ContactEditForm({
   contact,

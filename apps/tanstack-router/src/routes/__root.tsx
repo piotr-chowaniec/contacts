@@ -1,10 +1,10 @@
-import { SignedOut, SignInButton, SignedIn, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Link, Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import { createRootRouteWithContext, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
-import { Auth } from "../utils/auth";
+import type { Auth } from "../utils/auth";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;

@@ -1,12 +1,11 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-
-import { Contact } from "@contacts/server/db/schema";
+import type { Contact } from "@contacts/server/db/schema";
 import { ContactDetails } from "@contacts/ui/components/Contact.Details";
 import { ContactError } from "@contacts/ui/components/Contact.Error";
 import { ContactImage } from "@contacts/ui/components/Contact.Image";
 import { ContactSkeleton } from "@contacts/ui/components/Contact.Skeleton";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
 import {
   useDeleteContactMutation,
@@ -17,7 +16,7 @@ import {
 export const Route = createFileRoute("/contacts/$contactId")({
   loader: (opts) =>
     opts.context.queryClient.ensureQueryData(
-      useGetContactQueryOptions(opts.context.auth, opts.params.contactId),
+      useGetContactQueryOptions(opts.context.auth, opts.params.contactId)
     ),
   pendingComponent: ContactSkeleton,
   component: ContactComponent,
@@ -41,7 +40,7 @@ function ContactComponent() {
       Favorite={<Favorite contact={contact} />}
       EditButton={
         <button
-          type="submit"
+          type="button"
           onClick={() => {
             void navigate({
               to: `/contacts/${params.contactId}/edit`,
@@ -54,7 +53,7 @@ function ContactComponent() {
       }
       DeleteButton={
         <button
-          type="submit"
+          type="button"
           className="text-red-600"
           onClick={() => {
             const response = confirm("Please confirm you want to delete this contact.");
@@ -99,6 +98,7 @@ const Favorite = ({ contact }: { contact: Contact }) => {
 
   return (
     <button
+      type="button"
       aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
       name="favorite"
       value={isFavorite ? "false" : "true"}

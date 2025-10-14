@@ -1,14 +1,13 @@
-import { QueryClient, queryOptions, useMutation } from "@tanstack/react-query";
-
-import { UpdateContact } from "@contacts/server/validation";
+import type { UpdateContact } from "@contacts/server/validation";
+import { type QueryClient, queryOptions, useMutation } from "@tanstack/react-query";
 
 import {
-  getMyContactsServerFn,
   createContactServerFn,
-  seedContactsServerFn,
-  getContactServerFn,
-  updateContactServerFn,
   deleteContactServerFn,
+  getContactServerFn,
+  getMyContactsServerFn,
+  seedContactsServerFn,
+  updateContactServerFn,
 } from "./queries";
 
 export const useGetMyContactsQueryOptions = (userId: string, q?: string) => {
@@ -37,12 +36,11 @@ export const useCreateContactMutation = (queryClient: QueryClient, userId: strin
 export const useUpdateContactMutation = (
   queryClient: QueryClient,
   userId: string,
-  contactId: string,
+  contactId: string
 ) =>
   useMutation({
     mutationKey: [userId, "contact", "update", contactId],
-    mutationFn: (data: UpdateContact) =>
-      updateContactServerFn({ data: { contactId, data } }),
+    mutationFn: (data: UpdateContact) => updateContactServerFn({ data: { contactId, data } }),
     onSettled: () =>
       queryClient.invalidateQueries({
         queryKey: [userId, "contact"],
@@ -52,7 +50,7 @@ export const useUpdateContactMutation = (
 export const useDeleteContactMutation = (
   queryClient: QueryClient,
   userId: string,
-  contactId: string,
+  contactId: string
 ) =>
   useMutation({
     mutationKey: [userId, "contact", "delete", contactId],
