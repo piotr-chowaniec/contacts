@@ -14,7 +14,7 @@ import type { Auth } from "./auth";
 
 export const useGetMyContactsQueryOptions = (auth: Auth, q?: string) => {
   return queryOptions({
-    queryKey: q ? [auth.userId, "contact", q] : ["contact", auth.userId],
+    queryKey: q ? [auth.userId, "contact", q] : [auth.userId, "contact"],
     queryFn: getMyContacts(auth, q),
   });
 };
