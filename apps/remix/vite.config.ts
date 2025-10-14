@@ -12,6 +12,9 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
+    server: {
+      port: 3001,
+    },
     plugins: [remix(), tsconfigPaths()],
   };
 });

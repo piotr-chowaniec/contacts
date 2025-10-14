@@ -1,12 +1,12 @@
-import { AuthObject } from "@clerk/express";
+import { getAuth } from "@clerk/express";
 import { Request, Response, NextFunction } from "express";
 
 export const withAuth = (
-  req: Request & { auth?: AuthObject },
+  req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const userId = req.auth?.userId;
+  const { userId } = getAuth(req)
 
   if (!userId) {
     res.status(401).json({ message: "Unauthorized" });

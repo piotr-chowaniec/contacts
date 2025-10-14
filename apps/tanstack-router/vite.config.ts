@@ -12,6 +12,9 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
+    server: {
+      port: 3002,
+    },
     plugins: [tanstackRouter(), viteReact()],
   };
 });

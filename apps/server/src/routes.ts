@@ -1,4 +1,4 @@
-import { AuthObject } from "@clerk/express";
+import { AuthObject, getAuth } from "@clerk/express";
 import express, { Request, Response } from "express";
 
 import {
@@ -13,13 +13,11 @@ import { UpdateContactSchema } from "@contacts/server/validation";
 
 const router = express.Router();
 
-type AuthenticatedRequest = Request & { auth?: AuthObject };
-
-router.get("/", async (req: AuthenticatedRequest, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   try {
-    const userId = req.auth!.userId!;
+    const { userId } = getAuth(req)
 
-    const contacts = await getMyContacts(userId, req.query.q as string);
+    const contacts = await getMyContacts(userId!, req.query.q as string);
     res.json({
       contacts,
     });
@@ -32,9 +30,9 @@ router.get("/", async (req: AuthenticatedRequest, res: Response) => {
   }
 });
 
-router.post("/", async (req: AuthenticatedRequest, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
-    const userId = req.auth!.userId!;
+    const { userId } = getAuth(req)
 
     const validatedFields = UpdateContactSchema.safeParse(req.body);
 
@@ -46,7 +44,7 @@ router.post("/", async (req: AuthenticatedRequest, res: Response) => {
       return;
     }
 
-    const contact = await addContact(userId, validatedFields.data);
+    const contact = await addContact(userId!, validatedFields.data);
     res.status(201).json({ contact });
   } catch (error) {
     console.error(error);
@@ -57,11 +55,11 @@ router.post("/", async (req: AuthenticatedRequest, res: Response) => {
   }
 });
 
-router.post("/seed", async (req: AuthenticatedRequest, res: Response) => {
+router.post("/seed", async (req: Request, res: Response) => {
   try {
-    const userId = req.auth!.userId!;
+    const { userId } = getAuth(req)
 
-    const contacts = await seedContacts(userId);
+    const contacts = await seedContacts(userId!);
     res.status(201).json({ contacts });
   } catch (error) {
     console.error(error);
@@ -72,11 +70,11 @@ router.post("/seed", async (req: AuthenticatedRequest, res: Response) => {
   }
 });
 
-router.get("/:contactId", async (req: AuthenticatedRequest, res: Response) => {
+router.get("/:contactId", async (req: Request, res: Response) => {
   try {
-    const userId = req.auth!.userId!;
+    const { userId } = getAuth(req)
 
-    const contact = await getContact(userId, req.params.contactId);
+    const contact = await getContact(userId!, req.params.contactId);
 
     if (!contact) {
       res.status(404).json({ message: "Contact not found" });
@@ -93,9 +91,9 @@ router.get("/:contactId", async (req: AuthenticatedRequest, res: Response) => {
   }
 });
 
-router.put("/:contactId", async (req: AuthenticatedRequest, res: Response) => {
+router.put("/:contactId", async (req: Request, res: Response) => {
   try {
-    const userId = req.auth!.userId!;
+    const { userId } = getAuth(req)
 
     const validatedFields = UpdateContactSchema.safeParse(req.body);
 
@@ -107,7 +105,7 @@ router.put("/:contactId", async (req: AuthenticatedRequest, res: Response) => {
       return;
     }
 
-    const contact = await updateContact(userId, req.params.contactId, validatedFields.data);
+    const contact = await updateContact(userId!, req.params.contactId, validatedFields.data);
     res.json({ contact });
   } catch (error) {
     console.error(error);
@@ -119,11 +117,11 @@ router.put("/:contactId", async (req: AuthenticatedRequest, res: Response) => {
   }
 });
 
-router.delete("/:contactId", async (req: AuthenticatedRequest, res: Response) => {
+router.delete("/:contactId", async (req: Request, res: Response) => {
   try {
-    const userId = req.auth!.userId!;
+    const { userId } = getAuth(req)
 
-    await deleteContact(userId, req.params.contactId);
+    await deleteContact(userId!, req.params.contactId);
     res.sendStatus(204);
   } catch (error) {
     console.error(error);
