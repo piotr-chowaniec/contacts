@@ -1,4 +1,4 @@
-import { getAuth } from "@clerk/tanstack-react-start/server";
+import { auth } from "@clerk/tanstack-react-start/server";
 import {
   addContact,
   deleteContact,
@@ -10,10 +10,9 @@ import {
 import type { UpdateContact } from "@contacts/server/validation";
 import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { getWebRequest } from "@tanstack/react-start/server";
 
 const ensureAuthenticated = async () => {
-  const { userId } = await getAuth(getWebRequest());
+  const { userId } = await auth();
   if (!userId) {
     throw redirect({ to: "/login" });
   }
@@ -21,7 +20,7 @@ const ensureAuthenticated = async () => {
 };
 
 export const getMyContactsServerFn = createServerFn({ method: "GET" })
-  .validator((d: { q?: string }) => d)
+  .inputValidator((d: { q?: string }) => d)
   .handler(async ({ data: { q } }) => {
     const userId = await ensureAuthenticated();
     const contacts = await getMyContacts(userId, q);
@@ -29,7 +28,7 @@ export const getMyContactsServerFn = createServerFn({ method: "GET" })
   });
 
 export const getContactServerFn = createServerFn({ method: "GET" })
-  .validator((d: { contactId: string }) => d)
+  .inputValidator((d: { contactId: string }) => d)
   .handler(async ({ data: { contactId } }) => {
     const userId = await ensureAuthenticated();
     const contact = await getContact(userId, contactId);
@@ -37,7 +36,7 @@ export const getContactServerFn = createServerFn({ method: "GET" })
   });
 
 export const createContactServerFn = createServerFn({ method: "POST" })
-  .validator((d: { data: UpdateContact }) => d)
+  .inputValidator((d: { data: UpdateContact }) => d)
   .handler(async ({ data: { data } }) => {
     const userId = await ensureAuthenticated();
     const contact = await addContact(userId, data);
@@ -45,7 +44,7 @@ export const createContactServerFn = createServerFn({ method: "POST" })
   });
 
 export const updateContactServerFn = createServerFn({ method: "POST" })
-  .validator((d: { contactId: string; data: UpdateContact }) => d)
+  .inputValidator((d: { contactId: string; data: UpdateContact }) => d)
   .handler(async ({ data: { contactId, data } }) => {
     try {
       const userId = await ensureAuthenticated();
@@ -57,7 +56,7 @@ export const updateContactServerFn = createServerFn({ method: "POST" })
   });
 
 export const deleteContactServerFn = createServerFn({ method: "POST" })
-  .validator((d: { contactId: string }) => d)
+  .inputValidator((d: { contactId: string }) => d)
   .handler(async ({ data: { contactId } }) => {
     const userId = await ensureAuthenticated();
     await deleteContact(userId, contactId);

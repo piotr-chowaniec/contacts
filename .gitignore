@@ -6,7 +6,9 @@ dist
 .env
 .turbo
 .vercel
-.vinxi
 .next
+.nitro
+.output
+.tanstack
 
 tsconfig.tsbuildinfo

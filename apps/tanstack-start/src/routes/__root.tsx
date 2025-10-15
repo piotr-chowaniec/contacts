@@ -5,7 +5,7 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/tanstack-react-start";
-import { getAuth } from "@clerk/tanstack-react-start/server";
+import { auth } from "@clerk/tanstack-react-start/server";
 import styles from "@contacts/ui/styles/global.css?url";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
@@ -19,14 +19,13 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
-import { getWebRequest } from "@tanstack/react-start/server";
 import type * as React from "react";
 
 import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary";
 import { NotFound } from "../components/NotFound";
 
 const fetchClerkAuth = createServerFn({ method: "GET" }).handler(async () => {
-  const { userId } = await getAuth(getWebRequest());
+  const { userId } = await auth();
 
   return {
     auth: { userId },
