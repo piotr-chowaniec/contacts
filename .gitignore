@@ -12,3 +12,4 @@ dist
 .tanstack
 
 tsconfig.tsbuildinfo
+routeTree.gen.ts

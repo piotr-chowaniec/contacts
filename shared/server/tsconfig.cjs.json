@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./dist/cjs",
-    "module": "commonjs"
+    "module": "commonjs",
+    "moduleResolution": "node10",
+    "ignoreDeprecations": "6.0"
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]

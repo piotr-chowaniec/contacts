@@ -179,7 +179,8 @@ const ContactsList = () => {
       {sortedContacts.map((contact) => (
         <li key={contact.id}>
           <Link
-            to={`/contacts/${contact.id}`}
+            to="/contacts/$contactId"
+            params={{ contactId: contact.id }}
             search={(prev) => prev}
             activeProps={{
               className: "font-bold",
