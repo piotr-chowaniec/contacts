@@ -1,4 +1,5 @@
 import path from "node:path";
+import tailwindcss from "@tailwindcss/vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig, loadEnv } from "vite";
@@ -15,6 +16,6 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3002,
     },
-    plugins: [tanstackRouter(), viteReact()],
+    plugins: [tailwindcss(), tanstackRouter(), viteReact()],
   };
 });

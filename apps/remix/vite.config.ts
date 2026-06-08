@@ -1,5 +1,6 @@
 import path from "node:path";
 import { vitePlugin as remix } from "@remix-run/dev";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, loadEnv } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
@@ -15,6 +16,6 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3001,
     },
-    plugins: [remix(), tsconfigPaths()],
+    plugins: [tailwindcss(), remix(), tsconfigPaths()],
   };
 });
