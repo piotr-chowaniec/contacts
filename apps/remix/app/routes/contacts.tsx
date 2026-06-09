@@ -2,21 +2,21 @@ import { getAuth } from "@clerk/react-router/ssr.server";
 import type { Contact } from "@contacts/server/db/schema";
 import { getMyContacts } from "@contacts/server/queries";
 import { RouteSpinner } from "@contacts/ui/components/Spinner";
-import { redirect } from "react-router";
+import _ from "lodash";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import type { LoaderFunctionArgs } from "react-router";
 import {
   Await,
   isRouteErrorResponse,
   NavLink,
   Outlet,
+  redirect,
   useLoaderData,
   useLocation,
   useNavigate,
   useRouteError,
   useSearchParams,
 } from "react-router";
-import _ from "lodash";
-import { Suspense, useEffect, useMemo, useState } from "react";
 
 type SortBy = "firstName" | "lastName" | "email";
 

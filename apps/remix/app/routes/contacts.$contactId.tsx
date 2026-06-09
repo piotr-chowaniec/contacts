@@ -5,11 +5,12 @@ import { ContactDetails } from "@contacts/ui/components/Contact.Details";
 import { ContactError } from "@contacts/ui/components/Contact.Error";
 import { ContactImage } from "@contacts/ui/components/Contact.Image";
 import { ContactSkeleton } from "@contacts/ui/components/Contact.Skeleton";
-import { redirect } from "react-router";
+import { type FunctionComponent, Suspense } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import {
   Await,
   Form,
+  redirect,
   useAsyncValue,
   useFetcher,
   useLoaderData,
@@ -17,7 +18,6 @@ import {
   useNavigate,
   useParams,
 } from "react-router";
-import { type FunctionComponent, Suspense } from "react";
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const { contactId } = args.params;

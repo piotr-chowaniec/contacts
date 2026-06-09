@@ -3,9 +3,8 @@ import type { Contact } from "@contacts/server/db/schema";
 import { getContact, updateContact } from "@contacts/server/queries";
 import { UpdateContactSchema } from "@contacts/server/validation";
 import { EditForm } from "@contacts/ui/components/Contact.Form";
-import { redirect } from "react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
-import { useActionData, useFetcher, useLoaderData, useNavigate } from "react-router";
+import { redirect, useActionData, useFetcher, useLoaderData, useNavigate } from "react-router";
 
 export const action = async (args: ActionFunctionArgs) => {
   const { contactId } = args.params;

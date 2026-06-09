@@ -1,7 +1,6 @@
 import { getAuth } from "@clerk/react-router/ssr.server";
 import { seedContacts } from "@contacts/server/queries";
-import { type ActionFunctionArgs, redirect } from "react-router";
-import { Form, useOutletContext } from "react-router";
+import { type ActionFunctionArgs, Form, redirect, useOutletContext } from "react-router";
 
 export const action = async (args: ActionFunctionArgs) => {
   const { userId } = await getAuth(args);
