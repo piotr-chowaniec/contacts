@@ -1,10 +1,10 @@
-import { getAuth } from "@clerk/remix/ssr.server";
+import { getAuth } from "@clerk/react-router/ssr.server";
 import { addContact } from "@contacts/server/queries";
 import { UpdateContactSchema } from "@contacts/server/validation";
 import { EditForm } from "@contacts/ui/components/Contact.Form";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { useActionData, useFetcher, useNavigate } from "@remix-run/react";
+import { redirect } from "react-router";
+import type { ActionFunctionArgs } from "react-router";
+import { useActionData, useFetcher, useNavigate } from "react-router";
 
 export const action = async (args: ActionFunctionArgs) => {
   const { userId } = await getAuth(args);

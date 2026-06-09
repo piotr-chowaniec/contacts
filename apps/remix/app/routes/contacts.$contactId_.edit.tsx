@@ -1,11 +1,11 @@
-import { getAuth } from "@clerk/remix/ssr.server";
+import { getAuth } from "@clerk/react-router/ssr.server";
 import type { Contact } from "@contacts/server/db/schema";
 import { getContact, updateContact } from "@contacts/server/queries";
 import { UpdateContactSchema } from "@contacts/server/validation";
 import { EditForm } from "@contacts/ui/components/Contact.Form";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useActionData, useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
+import { redirect } from "react-router";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import { useActionData, useFetcher, useLoaderData, useNavigate } from "react-router";
 
 export const action = async (args: ActionFunctionArgs) => {
   const { contactId } = args.params;
@@ -56,7 +56,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
   if (!contact) {
     throw new Response("Not Found", { status: 404 });
   }
-  return json({ contact });
+  return { contact };
 };
 
 export default function EditContact() {

@@ -1,12 +1,12 @@
-import { getAuth } from "@clerk/remix/ssr.server";
+import { getAuth } from "@clerk/react-router/ssr.server";
 import type { Contact as ContactType } from "@contacts/server/db/schema";
 import { getContact, updateContactFavorite } from "@contacts/server/queries";
 import { ContactDetails } from "@contacts/ui/components/Contact.Details";
 import { ContactError } from "@contacts/ui/components/Contact.Error";
 import { ContactImage } from "@contacts/ui/components/Contact.Image";
 import { ContactSkeleton } from "@contacts/ui/components/Contact.Skeleton";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { defer, redirect } from "@remix-run/node";
+import { redirect } from "react-router";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import {
   Await,
   Form,
@@ -16,7 +16,7 @@ import {
   useLocation,
   useNavigate,
   useParams,
-} from "@remix-run/react";
+} from "react-router";
 import { type FunctionComponent, Suspense } from "react";
 
 export const loader = async (args: LoaderFunctionArgs) => {
@@ -32,7 +32,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
   const contactPromise = getContact(userId, contactId);
 
-  return defer({ contactPromise });
+  return { contactPromise };
 };
 
 export const action = async (args: ActionFunctionArgs) => {

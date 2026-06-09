@@ -1,6 +1,6 @@
-import { SignInButton } from "@clerk/remix";
-import { getAuth } from "@clerk/remix/ssr.server";
-import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
+import { SignInButton } from "@clerk/react-router";
+import { getAuth } from "@clerk/react-router/ssr.server";
+import { type LoaderFunctionArgs, redirect } from "react-router";
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const { userId } = await getAuth(args);

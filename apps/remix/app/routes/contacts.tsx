@@ -1,9 +1,9 @@
-import { getAuth } from "@clerk/remix/ssr.server";
+import { getAuth } from "@clerk/react-router/ssr.server";
 import type { Contact } from "@contacts/server/db/schema";
 import { getMyContacts } from "@contacts/server/queries";
 import { RouteSpinner } from "@contacts/ui/components/Spinner";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { defer, redirect } from "@remix-run/node";
+import { redirect } from "react-router";
+import type { LoaderFunctionArgs } from "react-router";
 import {
   Await,
   isRouteErrorResponse,
@@ -14,7 +14,7 @@ import {
   useNavigate,
   useRouteError,
   useSearchParams,
-} from "@remix-run/react";
+} from "react-router";
 import _ from "lodash";
 import { Suspense, useEffect, useMemo, useState } from "react";
 
@@ -31,7 +31,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
   const sortBy = (url.searchParams.get("sortBy") as SortBy) || "firstName";
   const contactsPromise = getMyContacts(userId, q);
 
-  return defer({ contactsPromise, q, sortBy });
+  return { contactsPromise, q, sortBy };
 };
 
 export function ErrorBoundary() {

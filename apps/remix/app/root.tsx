@@ -1,7 +1,7 @@
-import { ClerkApp, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/remix";
-import { rootAuthLoader } from "@clerk/remix/ssr.server";
+import { ClerkProvider, Show, SignInButton, UserButton } from "@clerk/react-router";
+import { clerkMiddleware, rootAuthLoader } from "@clerk/react-router/server";
 import styles from "@contacts/ui/styles/global.css?url";
-import type { LinksFunction, LoaderFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunction } from "react-router";
 import {
   isRouteErrorResponse,
   Links,
@@ -10,8 +10,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useRouteError,
-} from "@remix-run/react";
+} from "react-router";
+
+export const middleware = [clerkMiddleware()];
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
@@ -90,7 +93,9 @@ export function ErrorBoundary() {
   );
 }
 
-function App() {
+export default function App() {
+  const loaderData = useLoaderData<typeof loader>();
+
   return (
     <html lang="en">
       <head>
@@ -100,63 +105,63 @@ function App() {
         <Links />
       </head>
       <body>
-        <div className="flex h-screen w-screen flex-col p-2">
-          <div className={`col flex items-center justify-between gap-2 border-b pb-2`}>
-            <h1 className="p-2 text-3xl">Contacts App</h1>
-            <div className="mr-4 flex items-center">
-              <SignedOut>
-                <SignInButton />
-              </SignedOut>
-              <SignedIn>
-                <UserButton
-                  appearance={{
-                    elements: {
-                      avatarBox: "w-10 h-10",
-                    },
-                  }}
-                />
-              </SignedIn>
+        <ClerkProvider loaderData={loaderData}>
+          <div className="flex h-screen w-screen flex-col p-2">
+            <div className={`col flex items-center justify-between gap-2 border-b pb-2`}>
+              <h1 className="p-2 text-3xl">Contacts App</h1>
+              <div className="mr-4 flex items-center">
+                <Show when="signed-out">
+                  <SignInButton />
+                </Show>
+                <Show when="signed-in">
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        avatarBox: "w-10 h-10",
+                      },
+                    }}
+                  />
+                </Show>
+              </div>
             </div>
-          </div>
-          <div className={`flex h-full`}>
-            <div className={`w-40 divide-y`}>
-              <NavLink
-                to={"/"}
-                className={({ isActive }) =>
-                  `block px-3 py-2 text-blue-700 ${isActive ? `font-bold` : ``}`
-                }
-              >
-                Home
-              </NavLink>
-              <NavLink
-                to={"/contacts"}
-                className={({ isActive }) =>
-                  `block px-3 py-2 text-blue-700 ${isActive ? `font-bold` : ``}`
-                }
-              >
-                Contacts
-              </NavLink>
-              <SignedOut>
+            <div className={`flex h-full`}>
+              <div className={`w-40 divide-y`}>
                 <NavLink
-                  to={"/login"}
+                  to={"/"}
                   className={({ isActive }) =>
                     `block px-3 py-2 text-blue-700 ${isActive ? `font-bold` : ``}`
                   }
                 >
-                  Sign in
+                  Home
                 </NavLink>
-              </SignedOut>
-            </div>
-            <div className={`flex h-full flex-1 border-l`}>
-              <Outlet />
+                <NavLink
+                  to={"/contacts"}
+                  className={({ isActive }) =>
+                    `block px-3 py-2 text-blue-700 ${isActive ? `font-bold` : ``}`
+                  }
+                >
+                  Contacts
+                </NavLink>
+                <Show when="signed-out">
+                  <NavLink
+                    to={"/login"}
+                    className={({ isActive }) =>
+                      `block px-3 py-2 text-blue-700 ${isActive ? `font-bold` : ``}`
+                    }
+                  >
+                    Sign in
+                  </NavLink>
+                </Show>
+              </div>
+              <div className={`flex h-full flex-1 border-l`}>
+                <Outlet />
+              </div>
             </div>
           </div>
-        </div>
+        </ClerkProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
 }
-
-export default ClerkApp(App);

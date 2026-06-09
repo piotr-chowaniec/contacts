@@ -10,6 +10,10 @@ dist
 .nitro
 .output
 .tanstack
+.react-router
 
 tsconfig.tsbuildinfo
 routeTree.gen.ts
+
+plans/
+prd/
