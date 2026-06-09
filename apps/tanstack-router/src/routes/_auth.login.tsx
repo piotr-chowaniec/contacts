@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
+import { Show, SignInButton } from "@clerk/react";
 import { createFileRoute, Navigate, useSearch } from "@tanstack/react-router";
 import z from "zod";
 
@@ -14,15 +14,15 @@ function LoginComponent() {
 
   return (
     <>
-      <SignedIn>
+      <Show when="signed-in">
         <Navigate to={redirect || "/contacts"} />
-      </SignedIn>
-      <SignedOut>
+      </Show>
+      <Show when="signed-out">
         <div className="flex w-full flex-col items-center gap-4 pt-10">
           <div>Please sign in</div>
           <SignInButton />
         </div>
-      </SignedOut>
+      </Show>
     </>
   );
 }

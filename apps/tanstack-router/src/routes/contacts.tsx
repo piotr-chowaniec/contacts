@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import { Show } from "@clerk/react";
 import { RouteSpinner } from "@contacts/ui/components/Spinner";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Navigate, Outlet } from "@tanstack/react-router";
@@ -33,10 +33,10 @@ function ContactsComponent() {
 
   return (
     <>
-      <SignedOut>
+      <Show when="signed-out">
         <Navigate to={"/login"} search={{ redirect: "/contacts" }} />
-      </SignedOut>
-      <SignedIn>
+      </Show>
+      <Show when="signed-in">
         <div className="flex h-full w-80 flex-col items-center gap-4 border-r py-4">
           <div className="flex w-full flex-col items-center gap-4 px-6">
             <ContactSort />
@@ -63,7 +63,7 @@ function ContactsComponent() {
         <div className="flex-1 p-14">
           <Outlet />
         </div>
-      </SignedIn>
+      </Show>
     </>
   );
 }

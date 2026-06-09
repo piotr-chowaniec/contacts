@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import { Show, SignInButton, UserButton } from "@clerk/react";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRootRouteWithContext, Link, Outlet } from "@tanstack/react-router";
@@ -20,10 +20,10 @@ function RootComponent() {
         <div className={`col flex items-center justify-between gap-2 border-b pb-2`}>
           <h1 className="p-2 text-3xl">Contacts App</h1>
           <div className="mr-4 flex items-center">
-            <SignedOut>
+            <Show when="signed-out">
               <SignInButton />
-            </SignedOut>
-            <SignedIn>
+            </Show>
+            <Show when="signed-in">
               <UserButton
                 appearance={{
                   elements: {
@@ -31,7 +31,7 @@ function RootComponent() {
                   },
                 }}
               />
-            </SignedIn>
+            </Show>
           </div>
         </div>
         <div className={`flex h-full`}>
@@ -54,7 +54,7 @@ function RootComponent() {
             >
               Contacts
             </Link>
-            <SignedOut>
+            <Show when="signed-out">
               <Link
                 to={"/login"}
                 activeProps={{
@@ -64,7 +64,7 @@ function RootComponent() {
               >
                 Sign in
               </Link>
-            </SignedOut>
+            </Show>
           </div>
           <div className={`flex h-full flex-1 border-l`}>
             <Outlet />

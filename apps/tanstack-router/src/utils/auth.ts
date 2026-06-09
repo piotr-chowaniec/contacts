@@ -1,3 +1,3 @@
-import type { useAuth } from "@clerk/clerk-react";
+import type { useAuth } from "@clerk/react";
 
 export type Auth = ReturnType<typeof useAuth>;

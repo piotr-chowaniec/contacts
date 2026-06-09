@@ -1,14 +1,14 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { Show, SignInButton, UserButton } from "@clerk/nextjs";
 
 export default function TopNav() {
   return (
     <div className={`col flex items-center justify-between gap-2 border-b pb-2`}>
       <h1 className="p-2 text-3xl">Contacts App</h1>
       <div className="mr-4 flex items-center">
-        <SignedOut>
+        <Show when="signed-out">
           <SignInButton />
-        </SignedOut>
-        <SignedIn>
+        </Show>
+        <Show when="signed-in">
           <UserButton
             appearance={{
               elements: {
@@ -16,7 +16,7 @@ export default function TopNav() {
               },
             }}
           />
-        </SignedIn>
+        </Show>
       </div>
     </div>
   );

@@ -10,7 +10,7 @@
     "start": "vite start --port 3000"
   },
   "dependencies": {
-    "@clerk/clerk-react": "^5.50.0",
+    "@clerk/react": "^6.7.3",
     "@contacts/server": "workspace:*",
     "@contacts/ui": "workspace:*",
     "@tanstack/react-query": "^5.90.2",

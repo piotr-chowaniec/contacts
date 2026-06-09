@@ -1,10 +1,5 @@
-import {
-  ClerkProvider,
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-} from "@clerk/tanstack-react-start";
+import { Show, SignInButton, UserButton } from "@clerk/react";
+import { ClerkProvider } from "@clerk/tanstack-react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
 import styles from "@contacts/ui/styles/global.css?url";
 import { TanStackDevtools } from "@tanstack/react-devtools";
@@ -91,10 +86,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <div className={`col flex items-center justify-between gap-2 border-b pb-2`}>
             <h1 className="p-2 text-3xl">Contacts App</h1>
             <div className="mr-4 flex items-center">
-              <SignedOut>
+              <Show when="signed-out">
                 <SignInButton />
-              </SignedOut>
-              <SignedIn>
+              </Show>
+              <Show when="signed-in">
                 <UserButton
                   appearance={{
                     elements: {
@@ -102,7 +97,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                     },
                   }}
                 />
-              </SignedIn>
+              </Show>
             </div>
           </div>
           <div className={`flex h-full`}>
@@ -125,7 +120,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               >
                 Contacts
               </Link>
-              <SignedOut>
+              <Show when="signed-out">
                 <Link
                   to={"/login"}
                   activeProps={{
@@ -135,7 +130,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 >
                   Sign in
                 </Link>
-              </SignedOut>
+              </Show>
             </div>
             <div className={`flex h-full flex-1 border-l`}>{children}</div>
           </div>
