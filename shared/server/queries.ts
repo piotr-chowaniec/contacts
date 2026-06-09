@@ -1,9 +1,9 @@
 import { and, eq } from "drizzle-orm";
 
-import { db } from "./db";
-import { contacts } from "./db/schema";
-import { TEST_CONTACTS } from "./db/seed";
-import type { UpdateContact, UpdateContactFavorite } from "./validation";
+import { db } from "./db/index.js";
+import { contacts } from "./db/schema.js";
+import { TEST_CONTACTS } from "./db/seed.js";
+import type { UpdateContact, UpdateContactFavorite } from "./validation.js";
 
 const FORCED_NETWORK_LATENCY = process.env.FORCED_NETWORK_LATENCY
   ? parseInt(process.env.FORCED_NETWORK_LATENCY, 10)

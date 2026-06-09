@@ -2,7 +2,9 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "./",
-    "outDir": "./dist/mjs"
+    "outDir": "./dist/mjs",
+    "module": "node16",
+    "moduleResolution": "node16"
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]

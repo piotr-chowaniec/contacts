@@ -2,10 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "private": true,
-  "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -b",
-    "start": "node dist/index.js",
+    "build": "tsc --noEmit",
+    "start": "tsx src/index.ts",
     "dev": "cross-env NODE_ENV=development nodemon --exec tsx src/index.ts"
   },
   "dependencies": {
@@ -14,7 +13,8 @@
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "tsx": "^4.22.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -23,7 +23,6 @@
     "@types/node": "^22.9.0",
     "cross-env": "^7.0.3",
     "nodemon": "^3.1.7",
-    "tsx": "^4.22.4",
     "typescript": "^6.0.3"
   }
 }

@@ -2,32 +2,27 @@
   "name": "@contacts/server",
   "version": "1.0.0",
   "private": true,
-  "main": "./dist/cjs/index.js",
+  "type": "module",
+  "main": "./dist/mjs/index.js",
   "module": "./dist/mjs/index.js",
   "exports": {
-    ".": {
-      "import": "./dist/mjs/index.js",
-      "require": "./dist/cjs/index.js"
-    },
-    "./*": {
-      "import": "./dist/mjs/*.js",
-      "require": "./dist/cjs/*.js"
-    }
+    ".": "./dist/mjs/index.js",
+    "./*": "./dist/mjs/*.js"
   },
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "build": "tsc -b tsconfig.json tsconfig.cjs.json"
+    "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@vercel/postgres": "^0.10.0",
+    "@neondatabase/serverless": "^1.1.0",
     "dotenv": "^17.4.2",
-    "drizzle-orm": "^0.36.3",
+    "drizzle-orm": "^0.45.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.28.1"
+    "drizzle-kit": "^0.31.10"
   }
 }
