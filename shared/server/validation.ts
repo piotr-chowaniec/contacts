@@ -3,8 +3,8 @@ import { z } from "zod";
 export const UpdateContactSchema = z.object({
   firstName: z.string().trim().min(3),
   lastName: z.string().trim().min(3),
-  email: z.string().email(),
-  avatarUrl: z.string().url().optional().nullable().or(z.literal("")),
+  email: z.email(),
+  avatarUrl: z.url().optional().nullable().or(z.literal("")),
   favorite: z.boolean().optional(),
 });
 export type UpdateContact = z.infer<typeof UpdateContactSchema>;

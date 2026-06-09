@@ -1,6 +1,6 @@
 import { Show, SignInButton } from "@clerk/react";
 import { createFileRoute, Navigate, useSearch } from "@tanstack/react-router";
-import z from "zod";
+import { z } from "zod";
 
 export const Route = createFileRoute("/_auth/login")({
   validateSearch: z.object({
