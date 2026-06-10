@@ -1,54 +1,64 @@
 @import "tailwindcss";
+@source "../components";
 
-* {
-  @apply border-gray-200 dark:border-gray-800;
-}
-body {
-  @apply bg-gray-50 text-gray-950 dark:bg-gray-900 dark:text-gray-200;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@layer base {
+  * {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+  body {
+    @apply bg-gray-50 text-gray-950 dark:bg-gray-900 dark:text-gray-200;
+    font-family:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-input,
-button,
-select {
-  font-size: 1rem;
-  font-family: inherit;
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
-  box-shadow:
-    0 0px 1px hsla(0, 0%, 0%, 0.2),
-    0 1px 2px hsla(0, 0%, 0%, 0.2);
-  background-color: white;
-  line-height: 1.5;
-  margin: 0;
-}
-button {
-  color: #3992ff;
-  font-weight: 500;
-}
+  input,
+  button,
+  select {
+    font-size: 1rem;
+    font-family: inherit;
+    border-style: none;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    box-shadow:
+      0 0px 1px hsla(0, 0%, 0%, 0.2),
+      0 1px 2px hsla(0, 0%, 0%, 0.2);
+    background-color: white;
+    line-height: 1.5;
+    margin: 0;
+  }
+  button {
+    color: #3992ff;
+    font-weight: 500;
+  }
+  /* v4 Preflight drops the v3 `cursor: pointer` on buttons (now `default`).
+   * Restore it per the official upgrade guide. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
 
-input:hover,
-button:hover,
-select:hover {
-  box-shadow:
-    0 0px 1px hsla(0, 0%, 0%, 0.6),
-    0 1px 2px hsla(0, 0%, 0%, 0.2);
-}
+  input:hover,
+  button:hover,
+  select:hover {
+    box-shadow:
+      0 0px 1px hsla(0, 0%, 0%, 0.6),
+      0 1px 2px hsla(0, 0%, 0%, 0.2);
+  }
 
-input:disabled,
-button:disabled {
-  box-shadow:
-    0 0px 1px hsla(0, 0%, 0%, 0.2),
-    0 1px 2px hsla(0, 0%, 0%, 0.2);
-  opacity: 0.5;
-}
+  input:disabled,
+  button:disabled {
+    box-shadow:
+      0 0px 1px hsla(0, 0%, 0%, 0.2),
+      0 1px 2px hsla(0, 0%, 0%, 0.2);
+    opacity: 0.5;
+  }
 
-button:active {
-  box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.4);
-  transform: translateY(1px);
+  button:active {
+    box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.4);
+    transform: translateY(1px);
+  }
 }
