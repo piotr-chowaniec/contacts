@@ -112,6 +112,7 @@ const ContactSort = () => {
     <div className="flex w-full items-center gap-2">
       Sort By:
       <select
+        aria-label="Sort by"
         value={sortBy}
         onChange={(e) => setSortBy(e.target.value as SortBy)}
         className="h-8 flex-1 rounded border p-1 px-2"
@@ -191,7 +192,7 @@ const ContactsList = ({ contacts }: { contacts: Contact[] }) => {
   const sortedContacts = _.sortBy(contacts, sortBy);
 
   return (
-    <ul className="h-10">
+    <ul aria-label="Contacts" className="h-10">
       {sortedContacts.map((contact) => (
         <li key={contact.id}>
           <NavLink

@@ -5,10 +5,10 @@ import { resolve } from "node:path";
 dotenv.config({ path: resolve("..", ".env"), override: true });
 
 export default defineConfig({
-  testDir: "./tests",
+  testDir: "./",
   fullyParallel: true,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  retries: process.env.CI ? 2 : 1,
+  workers: 1,
   reporter: [["html", { open: "never" }]],
   use: {
     trace: "on-first-retry",

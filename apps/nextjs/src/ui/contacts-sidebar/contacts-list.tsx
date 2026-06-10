@@ -23,7 +23,7 @@ export function ContactsList({ sortBy, q }: { sortBy: SortBy; q: string }) {
   const sortedContacts = _.sortBy(contacts, sortBy);
 
   return (
-    <ul className="h-10">
+    <ul aria-label="Contacts" className="h-10">
       {sortedContacts.map((contact) => (
         <li key={contact.id}>
           <Link

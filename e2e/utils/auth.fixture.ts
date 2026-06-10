@@ -8,6 +8,8 @@ const API_URL = process.env.VITE_API_URL ?? "http://localhost:3010";
 type AuthFixtures = {
   /** Authenticated page with 31 seeded contacts. Use this instead of bare `page` for tests that need auth. */
   authedPage: Page;
+  /** Authenticated page with no contacts seeded. Use this for empty-state tests. */
+  unseededPage: Page;
 };
 
 export const test = base.extend<AuthFixtures>({
@@ -63,6 +65,28 @@ export const test = base.extend<AuthFixtures>({
             // Best-effort; the Clerk user deletion below prevents orphaned rows
           });
       }
+    } finally {
+      await clerkClient.users.deleteUser(user.id);
+    }
+  },
+
+  unseededPage: async ({ page, baseURL }, use) => {
+    const username = `e2e_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+
+    const user = await clerkClient.users.createUser({
+      username,
+      password: "E2eTestPassword123!",
+      firstName: "E2e",
+      lastName: "Test",
+    });
+
+    try {
+      const signInToken = await clerkClient.signInTokens.createSignInToken({ userId: user.id, expiresInSeconds: 60 });
+      await setupClerkTestingToken({ page });
+      await page.goto(baseURL!);
+      await clerk.signIn({ page, signInParams: { strategy: "ticket", ticket: signInToken.token } });
+
+      await use(page);
     } finally {
       await clerkClient.users.deleteUser(user.id);
     }

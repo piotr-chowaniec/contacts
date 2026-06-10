@@ -14,6 +14,7 @@ export function ContactSort() {
     <div className="flex w-full items-center gap-2">
       Sort By:
       <select
+        aria-label="Sort by"
         value={sortBy}
         onChange={(e) => void setSortBy(e.target.value as SortBy)}
         className="h-8 flex-1 rounded border p-1 px-2"
