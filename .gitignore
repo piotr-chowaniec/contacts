@@ -17,3 +17,6 @@ routeTree.gen.ts
 
 plans/
 prd/
+
+test-results
+playwright-report

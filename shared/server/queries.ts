@@ -107,6 +107,10 @@ export async function deleteContact(userId: string, id: string) {
   await db.delete(contacts).where(and(eq(contacts.id, id), eq(contacts.userId, userId)));
 }
 
+export async function deleteAllContacts(userId: string) {
+  await db.delete(contacts).where(eq(contacts.userId, userId));
+}
+
 export async function seedContacts(userId: string) {
   await db
     .insert(contacts)

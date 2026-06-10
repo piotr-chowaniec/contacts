@@ -42,4 +42,62 @@ Each app uses the common code in `shared/server` and `shared/ui` to ensure consi
 
 ## Installation and Setup
 
-This monorepo uses **pnpm** as the package manager and **TurboRepo** for managing the monorepo structure. Make sure you have [pnpm](https://pnpm.io/) installed.
+This monorepo uses **pnpm** as the package manager and **Turborepo** for task orchestration. Node.js 24+ and pnpm are required.
+
+**1. Install dependencies**
+
+```bash
+pnpm install
+```
+
+**2. Configure environment variables**
+
+Copy the example file and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+You will need:
+- A PostgreSQL connection string (e.g. [Neon](https://neon.tech/))
+- A [Clerk](https://clerk.com/) application — copy the Secret Key and Publishable Key from the Clerk dashboard
+
+**3. Run database migrations**
+
+```bash
+pnpm --filter @contacts/server db:migrate
+```
+
+**4. Start the development servers**
+
+```bash
+pnpm dev          # all apps in parallel
+pnpm dev:nextjs   # Next.js only (port 3000)
+pnpm dev:remix    # Remix only (port 3001)
+pnpm dev:tanstack-router  # TanStack Router only (port 3002)
+pnpm dev:tanstack-start   # TanStack Start only (port 3003)
+```
+
+## E2E Testing
+
+End-to-end tests are written with [Playwright](https://playwright.dev/) and live in the `e2e/` package. Tests run against all four apps simultaneously using the same `.env` as development.
+
+**One-time browser installation** (only needed once per machine):
+
+```bash
+pnpm --filter e2e install:browsers
+```
+
+**Run all tests** (starts all dev servers automatically):
+
+```bash
+pnpm test:e2e
+```
+
+**Interactive UI mode** (Playwright test runner UI):
+
+```bash
+pnpm test:e2e:ui
+```
+
+Each test gets an isolated Clerk user created via the backend API and deleted on teardown. The Express server is started with `FORCED_NETWORK_LATENCY=0` for the duration of the test run.

@@ -1,6 +1,7 @@
 import { getAuth } from "@clerk/express";
 import {
   addContact,
+  deleteAllContacts,
   deleteContact,
   getContact,
   getMyContacts,
@@ -113,6 +114,21 @@ router.put("/:contactId", async (req: Request, res: Response) => {
       message: "Failed to update contact details.",
     });
     return;
+  }
+});
+
+router.delete("/", async (req: Request, res: Response) => {
+  try {
+    const { userId } = getAuth(req);
+
+    await deleteAllContacts(userId!);
+    res.sendStatus(204);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Failed to delete contacts.",
+    });
   }
 });
 

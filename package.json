@@ -19,7 +19,9 @@
     "dev:tanstack-start": "pnpm turbo run dev --filter=tanstack-start...",
     "format-and-lint": "biome check .",
 		"format-and-lint:fix": "biome check . --write",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:e2e": "pnpm --filter e2e test:e2e",
+    "test:e2e:ui": "pnpm --filter e2e test:e2e:ui"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.16",
