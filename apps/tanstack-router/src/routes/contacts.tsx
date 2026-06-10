@@ -120,6 +120,15 @@ const ContactSearch = () => {
   }, [q]);
 
   useEffect(() => {
+    // Only sync the URL when the debounced value actually differs from the
+    // current `q`. On mount `querySearch` is initialised from `q`, so without
+    // this guard the effect fires a redundant navigate that — because
+    // `Route.useNavigate()` is bound to `/contacts` — collapses the path and
+    // drops the active `$contactId` child route (e.g. on a hard refresh).
+    if (querySearch === (q ?? "")) {
+      return;
+    }
+
     void navigate({
       search: (old) => {
         const newSearchParams = _.pickBy(
@@ -134,7 +143,7 @@ const ContactSearch = () => {
       },
       replace: true,
     });
-  }, [querySearch, navigate]);
+  }, [querySearch, q, navigate]);
 
   const debounceSearchParamChange = useMemo(
     () =>
