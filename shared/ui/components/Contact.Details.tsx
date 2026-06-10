@@ -17,7 +17,7 @@ export const ContactDetails = ({
     <div className="h-60 w-60 overflow-hidden rounded-3xl bg-white">{ContactImage}</div>
 
     <div className="flex flex-col gap-6">
-      <h1 className="flex gap-4 align-center font-bold text-3xl">
+      <h1 data-testid="contact-name" className="flex gap-4 align-center font-bold text-3xl">
         {contact.firstName || contact.lastName ? (
           <>
             {contact.firstName} {contact.lastName}

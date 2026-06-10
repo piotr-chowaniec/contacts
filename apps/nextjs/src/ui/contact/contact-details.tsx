@@ -2,9 +2,9 @@
 
 import avatarFallback from "@contacts/ui/assets/images/avatar-fallback.png";
 import { ContactDetails as ContactComponent } from "@contacts/ui/components/Contact.Details";
+import { ContactError } from "@contacts/ui/components/Contact.Error";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 import { useGetContactQueryOptions } from "~/server/queryOptions";
 
 import { ContactDeleteButton } from "./contact-delete-button";
@@ -16,7 +16,7 @@ export function ContactDetails({ id }: { id: string }) {
   const { contact } = contactQuery.data;
 
   if (!contact) {
-    notFound();
+    return <ContactError />;
   }
 
   return (
