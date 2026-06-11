@@ -4,7 +4,8 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
     "@contacts/server": "workspace:*",

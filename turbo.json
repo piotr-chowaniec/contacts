@@ -6,6 +6,7 @@
     "build": {
       "dependsOn": ["^build"]
     },
+    "typecheck": {},
     "dev": {
       "persistent": true,
       "interactive": true,
