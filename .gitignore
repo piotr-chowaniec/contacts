@@ -14,6 +14,7 @@ dist
 
 tsconfig.tsbuildinfo
 routeTree.gen.ts
+next-env.d.ts
 
 plans/
 prd/

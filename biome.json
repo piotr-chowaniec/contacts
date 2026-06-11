@@ -70,6 +70,7 @@
       "!**/.next",
       "!**/node_modules",
       "!**/routeTree.gen.ts",
+      "!**/next-env.d.ts",
       "!apps/remix/.react-router"
     ]
   }
