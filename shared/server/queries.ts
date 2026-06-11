@@ -1,9 +1,9 @@
 import { and, eq } from "drizzle-orm";
 
-import { db } from "./db/index.js";
-import { contacts } from "./db/schema.js";
-import { TEST_CONTACTS } from "./db/seed.js";
-import type { UpdateContact, UpdateContactFavorite } from "./validation.js";
+import { db } from "./db/index";
+import { contacts } from "./db/schema";
+import { TEST_CONTACTS } from "./db/seed";
+import type { UpdateContact, UpdateContactFavorite } from "./validation";
 
 const FORCED_NETWORK_LATENCY = process.env.FORCED_NETWORK_LATENCY
   ? parseInt(process.env.FORCED_NETWORK_LATENCY, 10)
@@ -67,6 +67,8 @@ export async function addContact(userId: string, data: UpdateContact) {
     })
     .returning();
 
+  if (!createdContact) throw new Error("Contact not created");
+
   return createdContact;
 }
 
@@ -79,6 +81,8 @@ export async function updateContact(userId: string, id: string, updates: UpdateC
     .set(updates)
     .where(and(eq(contacts.id, id), eq(contacts.userId, userId)))
     .returning();
+
+  if (!updatedContact) throw new Error("Contact not found");
 
   return updatedContact;
 }
@@ -96,6 +100,8 @@ export async function updateContactFavorite(
     .set(updates)
     .where(and(eq(contacts.id, id), eq(contacts.userId, userId)))
     .returning();
+
+  if (!updatedContact) throw new Error("Contact not found");
 
   return updatedContact;
 }

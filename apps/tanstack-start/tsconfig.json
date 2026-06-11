@@ -14,9 +14,7 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "~/*": ["./src/*"],
-      "@contacts/ui": ["../../shared/ui"],
-      "@contacts/server": ["../../shared/server"]
+      "~/*": ["./src/*"]
     },
     "noEmit": true,
     "types": ["vite/client"],

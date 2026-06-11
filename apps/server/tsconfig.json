@@ -6,6 +6,5 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true
-  },
-  "references": [{ "path": "../../shared/server" }]
+  }
 }

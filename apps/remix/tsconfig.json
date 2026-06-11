@@ -21,6 +21,5 @@
     // Vite takes care of building everything, not tsc.
     "noEmit": true
   },
-  "references": [{ "path": "../../shared/server" }, { "path": "../../shared/ui" }],
   "include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"]
 }
