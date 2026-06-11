@@ -1,11 +1,14 @@
 {
   "name": "@contacts/ui",
   "version": "1.0.0",
-  "main": "./index.ts",
-  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./components/*": "./components/*.tsx",
+    "./styles/*": "./styles/*",
+    "./assets/*": "./assets/*"
+  },
   "scripts": {
-    "build": "tsc -b",
-    "typecheck": "tsc -b --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@contacts/server": "workspace:*",
