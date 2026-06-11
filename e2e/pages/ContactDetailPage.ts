@@ -36,4 +36,9 @@ export class ContactDetailPage {
   async clickDelete(): Promise<void> {
     await this.deleteButton.click();
   }
+
+  async clickDeleteAndConfirm(): Promise<void> {
+    this.page.once("dialog", (dialog) => void dialog.accept());
+    await this.deleteButton.click();
+  }
 }
