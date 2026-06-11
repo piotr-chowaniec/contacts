@@ -70,7 +70,7 @@ router.post("/seed", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/:contactId", async (req: Request, res: Response) => {
+router.get("/:contactId", async (req: Request<{ contactId: string }>, res: Response) => {
   try {
     const { userId } = getAuth(req);
 
@@ -91,7 +91,7 @@ router.get("/:contactId", async (req: Request, res: Response) => {
   }
 });
 
-router.put("/:contactId", async (req: Request, res: Response) => {
+router.put("/:contactId", async (req: Request<{ contactId: string }>, res: Response) => {
   try {
     const { userId } = getAuth(req);
 
@@ -132,7 +132,7 @@ router.delete("/", async (req: Request, res: Response) => {
   }
 });
 
-router.delete("/:contactId", async (req: Request, res: Response) => {
+router.delete("/:contactId", async (req: Request<{ contactId: string }>, res: Response) => {
   try {
     const { userId } = getAuth(req);
 
