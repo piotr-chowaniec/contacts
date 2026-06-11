@@ -1,4 +1,4 @@
-import { getAuth } from "@clerk/react-router/ssr.server";
+import { getAuth } from "@clerk/react-router/server";
 import type { Contact as ContactType } from "@contacts/server/db/schema";
 import { getContact, updateContactFavorite } from "@contacts/server/queries";
 import { ContactDetails } from "@contacts/ui/components/Contact.Details";

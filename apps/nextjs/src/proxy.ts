@@ -6,7 +6,7 @@ export default clerkMiddleware(async ({ protect }, req) => {
   if (isProtectedRoute(req)) {
     const redirectTo = new URL(
       `/login?redirectTo=${encodeURIComponent(`${req.nextUrl.pathname}${req.nextUrl.search}`)}`,
-      req.url,
+      req.url
     ).toString();
 
     await protect({

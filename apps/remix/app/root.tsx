@@ -1,9 +1,4 @@
-import {
-  ClerkProvider,
-  Show,
-  SignInButton,
-  UserButton,
-} from "@clerk/react-router";
+import { ClerkProvider, Show, SignInButton, UserButton } from "@clerk/react-router";
 import { clerkMiddleware, rootAuthLoader } from "@clerk/react-router/server";
 import styles from "@contacts/ui/styles/global.css?url";
 import type { LinksFunction, LoaderFunction } from "react-router";
@@ -62,9 +57,7 @@ export function ErrorBoundary() {
       </head>
       <body>
         <div className="flex h-screen w-screen flex-col p-2">
-          <div
-            className={`col flex items-center justify-between gap-2 border-b pb-2`}
-          >
+          <div className={`col flex items-center justify-between gap-2 border-b pb-2`}>
             <h1 className="p-2 text-3xl">Contacts App</h1>
           </div>
           <div className={`flex h-full`}>
@@ -89,9 +82,7 @@ export function ErrorBoundary() {
                 );
               })}
             </div>
-            <div
-              className={`flex flex-1 flex-col items-center justify-center border-l`}
-            >
+            <div className={`flex flex-1 flex-col items-center justify-center border-l`}>
               <ErrorToRender error={error} />
             </div>
           </div>
@@ -116,9 +107,7 @@ export default function App() {
       <body>
         <ClerkProvider loaderData={loaderData}>
           <div className="flex h-screen w-screen flex-col p-2">
-            <div
-              className={`col flex items-center justify-between gap-2 border-b pb-2`}
-            >
+            <div className={`col flex items-center justify-between gap-2 border-b pb-2`}>
               <h1 className="p-2 text-3xl">Contacts App</h1>
               <div className="mr-4 flex items-center">
                 <Show when="signed-out">

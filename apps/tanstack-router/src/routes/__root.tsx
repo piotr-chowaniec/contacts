@@ -1,11 +1,7 @@
 import { Show, SignInButton, UserButton } from "@clerk/react";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import {
-  createRootRouteWithContext,
-  Link,
-  Outlet,
-} from "@tanstack/react-router";
+import { createRootRouteWithContext, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 import type { Auth } from "../utils/auth";
@@ -21,9 +17,7 @@ function RootComponent() {
   return (
     <>
       <div className="flex h-screen w-screen flex-col p-2">
-        <div
-          className={`col flex items-center justify-between gap-2 border-b pb-2`}
-        >
+        <div className={`col flex items-center justify-between gap-2 border-b pb-2`}>
           <h1 className="p-2 text-3xl">Contacts App</h1>
           <div className="mr-4 flex items-center">
             <Show when="signed-out">

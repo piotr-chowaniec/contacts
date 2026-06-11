@@ -1,4 +1,4 @@
-import { getAuth } from "@clerk/react-router/ssr.server";
+import { getAuth } from "@clerk/react-router/server";
 import { seedContacts } from "@contacts/server/queries";
 import { type ActionFunctionArgs, Form, redirect, useOutletContext } from "react-router";
 

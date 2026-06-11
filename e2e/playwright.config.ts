@@ -78,7 +78,7 @@ export default defineConfig({
       reuseExistingServer: true,
       timeout: 30_000,
       cwd: resolve(".."),
-      env: { NODE_ENV: "development", FORCED_NETWORK_LATENCY: "0" },
+      env: { NODE_ENV: "development" },
     },
   ],
 });

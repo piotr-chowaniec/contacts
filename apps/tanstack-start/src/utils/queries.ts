@@ -20,7 +20,7 @@ const ensureAuthenticated = async () => {
 };
 
 export const getMyContactsServerFn = createServerFn({ method: "GET" })
-  .inputValidator((d: { q?: string }) => d)
+  .validator((d: { q?: string }) => d)
   .handler(async ({ data: { q } }) => {
     const userId = await ensureAuthenticated();
     const contacts = await getMyContacts(userId, q);
@@ -28,7 +28,7 @@ export const getMyContactsServerFn = createServerFn({ method: "GET" })
   });
 
 export const getContactServerFn = createServerFn({ method: "GET" })
-  .inputValidator((d: { contactId: string }) => d)
+  .validator((d: { contactId: string }) => d)
   .handler(async ({ data: { contactId } }) => {
     const userId = await ensureAuthenticated();
     const contact = await getContact(userId, contactId);
@@ -36,7 +36,7 @@ export const getContactServerFn = createServerFn({ method: "GET" })
   });
 
 export const createContactServerFn = createServerFn({ method: "POST" })
-  .inputValidator((d: { data: UpdateContact }) => d)
+  .validator((d: { data: UpdateContact }) => d)
   .handler(async ({ data: { data } }) => {
     const userId = await ensureAuthenticated();
     const contact = await addContact(userId, data);
@@ -44,7 +44,7 @@ export const createContactServerFn = createServerFn({ method: "POST" })
   });
 
 export const updateContactServerFn = createServerFn({ method: "POST" })
-  .inputValidator((d: { contactId: string; data: UpdateContact }) => d)
+  .validator((d: { contactId: string; data: UpdateContact }) => d)
   .handler(async ({ data: { contactId, data } }) => {
     try {
       const userId = await ensureAuthenticated();
@@ -56,7 +56,7 @@ export const updateContactServerFn = createServerFn({ method: "POST" })
   });
 
 export const deleteContactServerFn = createServerFn({ method: "POST" })
-  .inputValidator((d: { contactId: string }) => d)
+  .validator((d: { contactId: string }) => d)
   .handler(async ({ data: { contactId } }) => {
     const userId = await ensureAuthenticated();
     await deleteContact(userId, contactId);

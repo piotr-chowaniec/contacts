@@ -1,4 +1,4 @@
-import { getAuth } from "@clerk/react-router/ssr.server";
+import { getAuth } from "@clerk/react-router/server";
 import { addContact } from "@contacts/server/queries";
 import { UpdateContactSchema } from "@contacts/server/validation";
 import { EditForm } from "@contacts/ui/components/Contact.Form";

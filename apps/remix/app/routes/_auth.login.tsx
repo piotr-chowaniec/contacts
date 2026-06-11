@@ -1,5 +1,5 @@
 import { SignInButton } from "@clerk/react-router";
-import { getAuth } from "@clerk/react-router/ssr.server";
+import { getAuth } from "@clerk/react-router/server";
 import { type LoaderFunctionArgs, redirect } from "react-router";
 
 export const loader = async (args: LoaderFunctionArgs) => {

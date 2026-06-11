@@ -1,4 +1,4 @@
-import { getAuth } from "@clerk/react-router/ssr.server";
+import { getAuth } from "@clerk/react-router/server";
 import { deleteContact } from "@contacts/server/queries";
 import { type ActionFunctionArgs, redirect } from "react-router";
 
