@@ -1,4 +1,4 @@
-import type { UpdateContact } from "@contacts/server/validation";
+import type { UpdateContact, UpdateContactFavorite } from "@contacts/server/validation";
 import { type QueryClient, queryOptions, useMutation } from "@tanstack/react-query";
 
 import {
@@ -7,6 +7,7 @@ import {
   getContactServerFn,
   getMyContactsServerFn,
   seedContactsServerFn,
+  updateContactFavoriteServerFn,
   updateContactServerFn,
 } from "./queries";
 
@@ -41,6 +42,21 @@ export const useUpdateContactMutation = (
   useMutation({
     mutationKey: [userId, "contact", "update", contactId],
     mutationFn: (data: UpdateContact) => updateContactServerFn({ data: { contactId, data } }),
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: [userId, "contact"],
+      }),
+  });
+
+export const useFavoriteContactMutation = (
+  queryClient: QueryClient,
+  userId: string,
+  contactId: string
+) =>
+  useMutation({
+    mutationKey: [userId, "contact", "favorite", contactId],
+    mutationFn: (data: UpdateContactFavorite) =>
+      updateContactFavoriteServerFn({ data: { contactId, data } }),
     onSettled: () =>
       queryClient.invalidateQueries({
         queryKey: [userId, "contact"],

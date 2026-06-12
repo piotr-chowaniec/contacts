@@ -8,8 +8,9 @@ import {
   getMyContacts,
   seedContacts,
   updateContact,
+  updateContactFavorite,
 } from "@contacts/server/queries";
-import type { UpdateContact } from "@contacts/server/validation";
+import type { UpdateContact, UpdateContactFavorite } from "@contacts/server/validation";
 import { revalidatePath } from "next/cache";
 
 export async function getMyContactsServerFn(q?: string) {
@@ -48,6 +49,21 @@ export async function updateContactServerFn(contactId: string, data: UpdateConta
   if (!user.userId) throw new Error("Unauthorized");
 
   const contact = await updateContact(user.userId, contactId, data);
+
+  revalidatePath("/contacts");
+
+  return { contact };
+}
+
+export async function updateContactFavoriteServerFn(
+  contactId: string,
+  data: UpdateContactFavorite
+) {
+  const user = await auth();
+
+  if (!user.userId) throw new Error("Unauthorized");
+
+  const contact = await updateContactFavorite(user.userId, contactId, data);
 
   revalidatePath("/contacts");
 

@@ -9,8 +9,8 @@ import { useState } from "react";
 
 import {
   useDeleteContactMutation,
+  useFavoriteContactMutation,
   useGetContactQueryOptions,
-  useUpdateContactMutation,
 } from "../../utils/queryOptions";
 
 export const Route = createFileRoute("/_authed/contacts/$contactId")({
@@ -86,7 +86,7 @@ function ContactComponent() {
 const Favorite = ({ contact }: { contact: Contact }) => {
   const params = Route.useParams();
   const context = Route.useRouteContext();
-  const updateContactFavorite = useUpdateContactMutation(
+  const favoriteContact = useFavoriteContactMutation(
     context.queryClient,
     context.auth.userId!,
     params.contactId
@@ -98,12 +98,7 @@ const Favorite = ({ contact }: { contact: Contact }) => {
     const newFavoriteStatus = !isFavorite;
     setFavorite(newFavoriteStatus);
 
-    updateContactFavorite.mutate({
-      firstName: contact.firstName,
-      lastName: contact.lastName,
-      email: contact.email,
-      favorite: newFavoriteStatus,
-    });
+    favoriteContact.mutate({ favorite: newFavoriteStatus });
   };
 
   return (

@@ -1,8 +1,8 @@
 import { useAuth } from "@clerk/react";
 import {
   useDeleteContactMutation,
+  useFavoriteContactMutation,
   useGetContactQueryOptions,
-  useUpdateContactMutation,
 } from "@contacts/queries";
 import type { Contact } from "@contacts/server/db/schema";
 import { ContactDetails } from "@contacts/ui/components/Contact.Details";
@@ -69,7 +69,7 @@ function ContactDetailInner() {
 
 const Favorite = ({ contact }: { contact: Contact }) => {
   const auth = useAuth();
-  const updateContactFavorite = useUpdateContactMutation(auth, contact.id);
+  const favoriteContact = useFavoriteContactMutation(auth, contact.id);
 
   const [isFavorite, setFavorite] = useState<boolean>(Boolean(contact.favorite));
 
@@ -77,12 +77,7 @@ const Favorite = ({ contact }: { contact: Contact }) => {
     const newFavoriteStatus = !isFavorite;
     setFavorite(newFavoriteStatus);
 
-    updateContactFavorite.mutate({
-      firstName: contact.firstName,
-      lastName: contact.lastName,
-      email: contact.email,
-      favorite: newFavoriteStatus,
-    });
+    favoriteContact.mutate({ favorite: newFavoriteStatus });
   };
 
   return (

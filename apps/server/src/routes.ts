@@ -7,8 +7,9 @@ import {
   getMyContacts,
   seedContacts,
   updateContact,
+  updateContactFavorite,
 } from "@contacts/server/queries";
-import { UpdateContactSchema } from "@contacts/server/validation";
+import { UpdateContactFavoriteSchema, UpdateContactSchema } from "@contacts/server/validation";
 import express, { type Request, type Response } from "express";
 
 const router = express.Router();
@@ -88,6 +89,36 @@ router.get("/:contactId", async (req: Request<{ contactId: string }>, res: Respo
     res.status(500).json({
       message: "Failed to fetch contact details.",
     });
+  }
+});
+
+router.patch("/:contactId/favorite", async (req: Request<{ contactId: string }>, res: Response) => {
+  try {
+    const { userId } = getAuth(req);
+
+    const validatedFields = UpdateContactFavoriteSchema.safeParse(req.body);
+
+    if (!validatedFields.success) {
+      res.status(403).json({
+        message: "Failed to update favorite.",
+        errors: validatedFields.error.flatten().fieldErrors,
+      });
+      return;
+    }
+
+    const contact = await updateContactFavorite(
+      userId!,
+      req.params.contactId,
+      validatedFields.data
+    );
+    res.json({ contact });
+  } catch (error) {
+    console.error(error);
+
+    res.status(404).json({
+      message: "Failed to update favorite.",
+    });
+    return;
   }
 });
 

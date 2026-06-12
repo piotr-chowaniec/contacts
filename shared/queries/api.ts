@@ -1,5 +1,5 @@
 import type { Contact } from "@contacts/server/db/schema";
-import type { UpdateContact } from "@contacts/server/validation";
+import type { UpdateContact, UpdateContactFavorite } from "@contacts/server/validation";
 
 import type { Auth } from "./auth";
 
@@ -81,6 +81,29 @@ export const updateContact = (auth: Auth, contactId: string) => async (updates: 
     contact,
   };
 };
+
+export const updateContactFavorite =
+  (auth: Auth, contactId: string) => async (updates: UpdateContactFavorite) => {
+    const token = await auth.getToken();
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/contact/${contactId}/favorite`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updates),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update favorite");
+    }
+
+    const { contact } = (await response.json()) as { contact: Contact };
+
+    return {
+      contact,
+    };
+  };
 
 export const deleteContact = (auth: Auth, contactId: string) => async () => {
   const token = await auth.getToken();

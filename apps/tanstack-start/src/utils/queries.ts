@@ -6,8 +6,9 @@ import {
   getMyContacts,
   seedContacts,
   updateContact,
+  updateContactFavorite,
 } from "@contacts/server/queries";
-import type { UpdateContact } from "@contacts/server/validation";
+import type { UpdateContact, UpdateContactFavorite } from "@contacts/server/validation";
 import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 
@@ -53,6 +54,14 @@ export const updateContactServerFn = createServerFn({ method: "POST" })
     } catch (e) {
       console.log(e);
     }
+  });
+
+export const updateContactFavoriteServerFn = createServerFn({ method: "POST" })
+  .validator((d: { contactId: string; data: UpdateContactFavorite }) => d)
+  .handler(async ({ data: { contactId, data } }) => {
+    const userId = await ensureAuthenticated();
+    const contact = await updateContactFavorite(userId, contactId, data);
+    return { contact };
   });
 
 export const deleteContactServerFn = createServerFn({ method: "POST" })

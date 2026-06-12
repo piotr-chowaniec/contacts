@@ -1,7 +1,7 @@
 import {
   useDeleteContactMutation,
+  useFavoriteContactMutation,
   useGetContactQueryOptions,
-  useUpdateContactMutation,
 } from "@contacts/queries";
 import type { Contact } from "@contacts/server/db/schema";
 import { ContactDetails } from "@contacts/ui/components/Contact.Details";
@@ -79,7 +79,7 @@ function ContactComponent() {
 const Favorite = ({ contact }: { contact: Contact }) => {
   const params = Route.useParams();
   const context = Route.useRouteContext();
-  const updateContactFavorite = useUpdateContactMutation(context.auth, params.contactId);
+  const favoriteContact = useFavoriteContactMutation(context.auth, params.contactId);
 
   const [isFavorite, setFavorite] = useState<boolean>(Boolean(contact.favorite));
 
@@ -87,12 +87,7 @@ const Favorite = ({ contact }: { contact: Contact }) => {
     const newFavoriteStatus = !isFavorite;
     setFavorite(newFavoriteStatus);
 
-    updateContactFavorite.mutate({
-      firstName: contact.firstName,
-      lastName: contact.lastName,
-      email: contact.email,
-      favorite: newFavoriteStatus,
-    });
+    favoriteContact.mutate({ favorite: newFavoriteStatus });
   };
 
   return (

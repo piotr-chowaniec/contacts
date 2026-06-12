@@ -7,6 +7,7 @@ import {
   getMyContacts,
   seedContacts,
   updateContact,
+  updateContactFavorite,
 } from "./api";
 import type { Auth } from "./auth";
 
@@ -42,6 +43,19 @@ export const useUpdateContactMutation = (auth: Auth, contactId: string) => {
   return useMutation({
     mutationKey: [auth.userId, "contact", "update", contactId],
     mutationFn: updateContact(auth, contactId),
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: [auth.userId, "contact"],
+      }),
+  });
+};
+
+export const useFavoriteContactMutation = (auth: Auth, contactId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [auth.userId, "contact", "favorite", contactId],
+    mutationFn: updateContactFavorite(auth, contactId),
     onSettled: () =>
       queryClient.invalidateQueries({
         queryKey: [auth.userId, "contact"],

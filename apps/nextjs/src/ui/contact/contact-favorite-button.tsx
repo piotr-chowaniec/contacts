@@ -3,7 +3,7 @@
 import type { Contact } from "@contacts/server/db/schema";
 import { useOptimistic } from "react";
 import { getQueryClient } from "~/get-query-client";
-import { updateContactServerFn } from "~/server/queries";
+import { updateContactFavoriteServerFn } from "~/server/queries";
 
 export function Favorite({ contact }: { contact: Contact }) {
   const queryClient = getQueryClient();
@@ -17,12 +17,7 @@ export function Favorite({ contact }: { contact: Contact }) {
     const newFavorite = Boolean(!optimisticContact.favorite);
     changeOptimisticContact(newFavorite);
 
-    await updateContactServerFn(contact.id, {
-      firstName: contact.firstName,
-      lastName: contact.lastName,
-      email: contact.email,
-      favorite: newFavorite,
-    });
+    await updateContactFavoriteServerFn(contact.id, { favorite: newFavorite });
 
     await queryClient.invalidateQueries({
       queryKey: ["contact"],
