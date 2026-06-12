@@ -1,7 +1,7 @@
 import { ClerkProvider, Show, SignInButton, UserButton } from "@clerk/react-router";
 import { clerkMiddleware, rootAuthLoader } from "@clerk/react-router/server";
 import styles from "@contacts/ui/styles/global.css?url";
-import type { LinksFunction, LoaderFunction } from "react-router";
+import type { LinksFunction, LoaderFunction, MetaFunction } from "react-router";
 import {
   isRouteErrorResponse,
   Links,
@@ -17,6 +17,8 @@ import {
 export const middleware = [clerkMiddleware()];
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+
+export const meta: MetaFunction = () => [{ title: "Contacts - Remix" }];
 
 export const loader: LoaderFunction = (args) => rootAuthLoader(args);
 
