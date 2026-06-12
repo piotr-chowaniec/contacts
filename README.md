@@ -7,6 +7,7 @@ Welcome to the **Contacts App Showcase**! This monorepo demonstrates the same ap
 All apps are deployed to **Vercel**. You can explore live demos for each implementation below:
 
 - **Next.js**: [View Demo](https://contacts-nextjs-peach.vercel.app/)
+- **React Router**: [View Demo](https://contacts-react-router-spa.vercel.app/)
 - **Remix**: [View Demo](https://contacts-remix.vercel.app/)
 - **TanStack Router**: [View Demo](https://contacts-tanstack-router.vercel.app/)
 - **TanStack Start**: [View Demo](https://contacts-tanstack-start.vercel.app/)
@@ -72,14 +73,13 @@ pnpm --filter @contacts/server db:migrate
 **4. Start the development servers**
 
 ```bash
-pnpm dev          # all apps in parallel
-pnpm dev:nextjs   # Next.js only (port 3000)
-pnpm dev:remix    # Remix only (port 3002)
+pnpm dev                  # all apps in parallel
+pnpm dev:nextjs           # Next.js only (port 3000)
+pnpm dev:react-router     # React Router only (port 3001)
+pnpm dev:remix            # Remix only (port 3002)
 pnpm dev:tanstack-router  # TanStack Router only (port 3003)
 pnpm dev:tanstack-start   # TanStack Start only (port 3004)
 ```
-
-The React Router SPA (port 3001) starts with `pnpm dev` alongside the other apps.
 
 ## E2E Testing
 
