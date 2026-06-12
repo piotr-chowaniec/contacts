@@ -1,3 +1,8 @@
+import {
+  useDeleteContactMutation,
+  useGetContactQueryOptions,
+  useUpdateContactMutation,
+} from "@contacts/queries";
 import type { Contact } from "@contacts/server/db/schema";
 import { ContactDetails } from "@contacts/ui/components/Contact.Details";
 import { ContactError } from "@contacts/ui/components/Contact.Error";
@@ -6,12 +11,6 @@ import { ContactSkeleton } from "@contacts/ui/components/Contact.Skeleton";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-
-import {
-  useDeleteContactMutation,
-  useGetContactQueryOptions,
-  useUpdateContactMutation,
-} from "../utils/queryOptions";
 
 export const Route = createFileRoute("/contacts/$contactId")({
   loader: (opts) =>

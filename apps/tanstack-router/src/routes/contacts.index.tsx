@@ -1,8 +1,7 @@
+import { useGetMyContactsQueryOptions, useSeedContactsMutation } from "@contacts/queries";
 import { RouteSpinner } from "@contacts/ui/components/Spinner";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-
-import { useGetMyContactsQueryOptions, useSeedContactsMutation } from "../utils/queryOptions";
 
 export const Route = createFileRoute("/contacts/")({
   component: ContactsIndexComponent,

@@ -1,6 +1,4 @@
-import { queryOptions, useMutation } from "@tanstack/react-query";
-
-import { queryClient } from "../main";
+import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
   createContact,
@@ -25,8 +23,10 @@ export const useGetContactQueryOptions = (auth: Auth, contactId: string) =>
     queryFn: getContact(auth, contactId),
   });
 
-export const useCreateContactMutation = (auth: Auth) =>
-  useMutation({
+export const useCreateContactMutation = (auth: Auth) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationKey: [auth.userId, "contact", "create"],
     mutationFn: createContact(auth),
     onSettled: () =>
@@ -34,9 +34,12 @@ export const useCreateContactMutation = (auth: Auth) =>
         queryKey: [auth.userId, "contact"],
       }),
   });
+};
 
-export const useUpdateContactMutation = (auth: Auth, contactId: string) =>
-  useMutation({
+export const useUpdateContactMutation = (auth: Auth, contactId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationKey: [auth.userId, "contact", "update", contactId],
     mutationFn: updateContact(auth, contactId),
     onSettled: () =>
@@ -44,9 +47,12 @@ export const useUpdateContactMutation = (auth: Auth, contactId: string) =>
         queryKey: [auth.userId, "contact"],
       }),
   });
+};
 
-export const useDeleteContactMutation = (auth: Auth, contactId: string) =>
-  useMutation({
+export const useDeleteContactMutation = (auth: Auth, contactId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationKey: [auth.userId, "contact", "delete", contactId],
     mutationFn: deleteContact(auth, contactId),
     onSettled: () =>
@@ -54,9 +60,12 @@ export const useDeleteContactMutation = (auth: Auth, contactId: string) =>
         queryKey: [auth.userId, "contact"],
       }),
   });
+};
 
-export const useSeedContactsMutation = (auth: Auth) =>
-  useMutation({
+export const useSeedContactsMutation = (auth: Auth) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationKey: [auth.userId, "contact", "seed"],
     mutationFn: seedContacts(auth),
     onSettled: () =>
@@ -64,3 +73,4 @@ export const useSeedContactsMutation = (auth: Auth) =>
         queryKey: [auth.userId, "contact"],
       }),
   });
+};

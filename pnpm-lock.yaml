@@ -209,6 +209,9 @@ importers:
       '@clerk/react':
         specifier: ^6.7.3
         version: 6.7.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@contacts/queries':
+        specifier: workspace:*
+        version: link:../../shared/queries
       '@contacts/server':
         specifier: workspace:*
         version: link:../../shared/server
@@ -370,6 +373,22 @@ importers:
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
+  shared/queries:
+    dependencies:
+      '@contacts/server':
+        specifier: workspace:*
+        version: link:../server
+    devDependencies:
+      '@clerk/react':
+        specifier: ^6.7.3
+        version: 6.7.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@tanstack/react-query':
+        specifier: ^5.101.0
+        version: 5.101.0(react@19.2.7)
       typescript:
         specifier: ^6.0.3
         version: 6.0.3

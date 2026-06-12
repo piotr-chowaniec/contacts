@@ -1,10 +1,9 @@
 import { Show, SignInButton, UserButton } from "@clerk/react";
+import type { Auth } from "@contacts/queries";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRootRouteWithContext, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-
-import type { Auth } from "../utils/auth";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;

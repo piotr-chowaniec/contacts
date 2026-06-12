@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@clerk/react": "^6.7.3",
+    "@contacts/queries": "workspace:*",
     "@contacts/server": "workspace:*",
     "@contacts/ui": "workspace:*",
     "@tanstack/react-query": "^5.101.0",

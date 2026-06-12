@@ -1,11 +1,10 @@
 import { Show } from "@clerk/react";
+import { useGetMyContactsQueryOptions } from "@contacts/queries";
 import { RouteSpinner } from "@contacts/ui/components/Spinner";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Navigate, Outlet } from "@tanstack/react-router";
 import _ from "lodash";
 import { Suspense, useEffect, useMemo, useState } from "react";
-
-import { useGetMyContactsQueryOptions } from "../utils/queryOptions";
 
 type SortBy = "firstName" | "lastName" | "email";
 
