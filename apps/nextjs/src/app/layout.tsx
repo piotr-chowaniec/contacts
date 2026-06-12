@@ -7,6 +7,7 @@ import "@contacts/ui/styles/global.css";
 
 export const metadata: Metadata = {
   title: "Contacts - Next.js",
+  icons: { icon: "/favicon.svg" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

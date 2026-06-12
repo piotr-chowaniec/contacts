@@ -16,7 +16,10 @@ import {
 
 export const middleware = [clerkMiddleware()];
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+export const links: LinksFunction = () => [
+  { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+  { rel: "stylesheet", href: styles },
+];
 
 export const meta: MetaFunction = () => [{ title: "Contacts - Remix" }];
 

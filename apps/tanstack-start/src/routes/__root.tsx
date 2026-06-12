@@ -50,7 +50,10 @@ export const Route = createRootRouteWithContext<{
         title: "Contacts - TanStack Start",
       },
     ],
-    links: [{ rel: "stylesheet", href: styles }],
+    links: [
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "stylesheet", href: styles },
+    ],
   }),
   errorComponent: (props) => {
     return (
