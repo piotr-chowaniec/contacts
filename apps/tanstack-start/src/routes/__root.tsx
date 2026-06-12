@@ -2,9 +2,7 @@ import { Show, SignInButton, UserButton } from "@clerk/react";
 import { ClerkProvider } from "@clerk/tanstack-react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
 import styles from "@contacts/ui/styles/global.css?url";
-import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
   createRootRouteWithContext,
   HeadContent,
@@ -12,9 +10,12 @@ import {
   Outlet,
   Scripts,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
-import type * as React from "react";
+import * as React from "react";
+
+const DevToolsPanel = React.lazy(() =>
+  import("../components/DevToolsPanel").then((m) => ({ default: m.DevToolsPanel }))
+);
 
 import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary";
 import { NotFound } from "../components/NotFound";
@@ -79,6 +80,9 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+
   return (
     <html lang="en">
       <head>
@@ -138,21 +142,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <div className={`flex h-full flex-1 border-l`}>{children}</div>
           </div>
         </div>
-        <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-            {
-              name: "Tanstack Query",
-              render: <ReactQueryDevtools />,
-            },
-          ]}
-        />
+        {mounted && (
+          <React.Suspense>
+            <DevToolsPanel />
+          </React.Suspense>
+        )}
         <Scripts />
       </body>
     </html>
