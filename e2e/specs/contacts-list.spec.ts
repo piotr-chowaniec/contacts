@@ -1,4 +1,5 @@
 import { expect, test } from "../utils/index.js";
+import { ContactDetailPage } from "../pages/ContactDetailPage.js";
 import { ContactsListPage } from "../pages/ContactsListPage.js";
 
 const TOTAL_SEEDED = 31;
@@ -31,6 +32,33 @@ test.describe("Contacts list", () => {
 
     await listPage.sortBy("lastName");
     await expect(listPage.contactItems.nth(1)).toContainText("Giovanni Benussi");
+  });
+
+  test("should keep contact open when sort changes while viewing a contact", async ({ authedPage }) => {
+    const listPage = new ContactsListPage(authedPage);
+    const detailPage = new ContactDetailPage(authedPage);
+
+    await listPage.goto();
+    await listPage.clickContact("Ryan Florence");
+    await expect(detailPage.heading).toContainText("Ryan Florence");
+
+    await listPage.sortBy("lastName");
+
+    await expect(detailPage.heading).toContainText("Ryan Florence");
+    await expect(listPage.contactItems.nth(1)).toContainText("Giovanni Benussi");
+  });
+
+  test("should keep contact open when search is performed while viewing a contact", async ({ authedPage }) => {
+    const listPage = new ContactsListPage(authedPage);
+    const detailPage = new ContactDetailPage(authedPage);
+
+    await listPage.goto();
+    await listPage.clickContact("Ryan Florence");
+    await expect(detailPage.heading).toContainText("Ryan Florence");
+
+    await listPage.search("Ryan");
+
+    await expect(detailPage.heading).toContainText("Ryan Florence");
   });
 
   test("should show empty state when user has no contacts", async ({ unseededPage }) => {

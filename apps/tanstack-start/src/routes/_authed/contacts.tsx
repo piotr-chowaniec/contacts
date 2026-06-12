@@ -1,6 +1,6 @@
 import { RouteSpinner } from "@contacts/ui/components/Spinner";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouter } from "@tanstack/react-router";
 import _ from "lodash";
 import { Suspense, useEffect, useMemo, useState } from "react";
 
@@ -63,18 +63,17 @@ function ContactsComponent() {
 }
 
 const ContactSort = () => {
-  const navigate = Route.useNavigate();
+  const router = useRouter();
   const searchParams = Route.useSearch();
   const sortBy = searchParams.sortBy || "firstName";
 
   const setSortBy = (sortBy: SortBy) =>
-    navigate({
-      search: (old) => {
-        return {
-          ...old,
-          sortBy,
-        };
-      },
+    void router.navigate({
+      to: router.state.location.pathname,
+      search: (old) => ({
+        ...old,
+        sortBy,
+      }),
       replace: true,
     });
 
@@ -104,7 +103,7 @@ const ContactSort = () => {
 };
 
 const ContactSearch = () => {
-  const navigate = Route.useNavigate();
+  const router = useRouter();
   const { q } = Route.useSearch();
   const [queryInput, setQueryInput] = useState(q || "");
   const [querySearch, setQuerySearch] = useState(q || "");
@@ -115,16 +114,8 @@ const ContactSearch = () => {
   }, [q]);
 
   useEffect(() => {
-    // Only sync the URL when the debounced value actually differs from the
-    // current `q`. On mount `querySearch` is initialised from `q`, so without
-    // this guard the effect fires a redundant navigate that — because
-    // `Route.useNavigate()` is bound to `/contacts` — collapses the path and
-    // drops the active `$contactId` child route (e.g. on a hard refresh).
-    if (querySearch === (q ?? "")) {
-      return;
-    }
-
-    void navigate({
+    void router.navigate({
+      to: router.state.location.pathname,
       search: (old) => {
         const newSearchParams = _.pickBy(
           {
@@ -138,7 +129,7 @@ const ContactSearch = () => {
       },
       replace: true,
     });
-  }, [querySearch, q, navigate]);
+  }, [querySearch, router]);
 
   const debounceSearchParamChange = useMemo(
     () =>
