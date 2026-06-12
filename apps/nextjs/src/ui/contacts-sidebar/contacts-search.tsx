@@ -12,10 +12,8 @@ export function ContactSearch() {
   const [queryInput, setQueryInput] = useState(querySearch);
 
   useEffect(() => {
-    if (querySearch !== queryInput) {
-      setQueryInput(querySearch);
-    }
-  }, [querySearch, queryInput]);
+    setQueryInput(querySearch);
+  }, [querySearch]);
 
   const debounceSearchParamChange = useMemo(
     () =>

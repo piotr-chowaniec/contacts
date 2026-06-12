@@ -61,6 +61,17 @@ test.describe("Contacts list", () => {
     await expect(detailPage.heading).toContainText("Ryan Florence");
   });
 
+  test("should retain all typed characters in the search input when typed keystroke by keystroke", async ({ authedPage }) => {
+    const listPage = new ContactsListPage(authedPage);
+    await listPage.goto();
+
+    await listPage.typeSearch("Glenn");
+
+    await expect(listPage.searchInput).toHaveValue("Glenn");
+    await expect(listPage.contactItems).toHaveCount(1);
+    await expect(listPage.getContactItem("Glenn Reyes")).toBeVisible();
+  });
+
   test("should show empty state when user has no contacts", async ({ unseededPage }) => {
     const listPage = new ContactsListPage(unseededPage);
     await listPage.goto();

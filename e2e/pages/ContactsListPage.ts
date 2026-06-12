@@ -34,6 +34,11 @@ export class ContactsListPage {
     await this.page.waitForURL((url) => url.searchParams.get("q") === query);
   }
 
+  async typeSearch(query: string): Promise<void> {
+    await this.searchInput.pressSequentially(query);
+    await this.page.waitForURL((url) => url.searchParams.get("q") === query);
+  }
+
   async sortBy(value: "firstName" | "lastName" | "email"): Promise<void> {
     await this.sortSelect.selectOption(value);
   }
