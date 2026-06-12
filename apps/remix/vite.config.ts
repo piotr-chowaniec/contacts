@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
-      port: 3001,
+      port: 3002,
     },
     plugins: [tailwindcss(), reactRouter()],
     resolve: {

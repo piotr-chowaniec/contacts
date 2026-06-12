@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
-      port: 3003,
+      port: 3004,
     },
     plugins: [tailwindcss(), tanstackStart(), viteReact()],
     resolve: {

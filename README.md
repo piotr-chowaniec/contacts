@@ -15,13 +15,14 @@ All apps are deployed to **Vercel**. You can explore live demos for each impleme
 
 The monorepo contains the following implementations:
 
-| Directory              | Description                                                          |
-| ---------------------- | -------------------------------------------------------------------- |
-| `apps/nextjs`          | The app built with [Next.js (App Router + RSC)](https://nextjs.org/) |
-| `apps/remix`           | The app built with [Remix](https://remix.run/)                       |
-| `apps/server`          | Express backend for `apps/tanstack-router` app                       |
-| `apps/tanstack-router` | The app built with [TanStack Router](https://tanstack.com/router)    |
-| `apps/tanstack-start`  | The app built with [TanStack Start](https://tanstack.com/start)      |
+| Directory              | Port | Description                                                                                                      |
+| ---------------------- | ---- | -------------------------------------------------------------------------------------------------------------- |
+| `apps/nextjs`          | 3000 | The app built with [Next.js (App Router + RSC)](https://nextjs.org/)                                            |
+| `apps/react-router`    | 3001 | The app built with [React Router v7](https://reactrouter.com/) in library mode — pure Vite SPA + TanStack Query |
+| `apps/remix`           | 3002 | The app built with [Remix](https://remix.run/) — React Router v7 in framework mode (SSR, server loaders)        |
+| `apps/tanstack-router` | 3003 | The app built with [TanStack Router](https://tanstack.com/router)                                               |
+| `apps/tanstack-start`  | 3004 | The app built with [TanStack Start](https://tanstack.com/start)                                                 |
+| `apps/server`          | 3010 | Express backend for the SPA apps (`tanstack-router`, `react-router`)                                            |
 
 Each directory contains a fully functional implementation of the same app, complete with routing, data fetching, and user interactions.
 
@@ -73,14 +74,16 @@ pnpm --filter @contacts/server db:migrate
 ```bash
 pnpm dev          # all apps in parallel
 pnpm dev:nextjs   # Next.js only (port 3000)
-pnpm dev:remix    # Remix only (port 3001)
-pnpm dev:tanstack-router  # TanStack Router only (port 3002)
-pnpm dev:tanstack-start   # TanStack Start only (port 3003)
+pnpm dev:remix    # Remix only (port 3002)
+pnpm dev:tanstack-router  # TanStack Router only (port 3003)
+pnpm dev:tanstack-start   # TanStack Start only (port 3004)
 ```
+
+The React Router SPA (port 3001) starts with `pnpm dev` alongside the other apps.
 
 ## E2E Testing
 
-End-to-end tests are written with [Playwright](https://playwright.dev/) and live in the `e2e/` package. Tests run against all four apps simultaneously using the same `.env` as development.
+End-to-end tests are written with [Playwright](https://playwright.dev/) and live in the `e2e/` package. Tests run against all five apps simultaneously using the same `.env` as development.
 
 **One-time browser installation** (only needed once per machine):
 
